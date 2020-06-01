@@ -337,7 +337,7 @@ public class ElectionRound implements Menuable {
 	}
 
 	// from menu:
-
+	//here needs to be connected to gui!!
 	public void addABallot(Scanner scan) {
 		System.out.println("You have chose to add a ballot:");
 		System.out.println(

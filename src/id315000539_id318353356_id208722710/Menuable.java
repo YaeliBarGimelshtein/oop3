@@ -20,4 +20,5 @@ public interface Menuable {
 	void elections(Scanner scan);
 
 	void ShowElectionResults();
+	
 }
