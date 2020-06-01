@@ -1,4 +1,4 @@
-package id315000539_id318353356_id208722710;
+package Model;
 
 
 import java.util.Scanner;
@@ -8,7 +8,7 @@ public class MainModel {
 	private ElectionRound firstRound;
 	
 	public MainModel() throws ageOutOfRange, IDOutOfRange {
-		 firstRound = hardCode(); // election has a date
+		 firstRound = hardCode(); 
 	}
 	
 	public void update(String button,Scanner scan) throws IDOutOfRange, ageOutOfRange { // when a new button is pressed- here needs to be the menu
@@ -82,7 +82,6 @@ public class MainModel {
 		candidates.add(new Candidate("Yair Lapid", 198365039, 1960, runningParties.get(2)));
 		elections.setCandidatesVoters(candidates); 
 		
-		
 		Set<SickCandidate> sickCandidates= new Set<>();
 		sickCandidates.add(new SickCandidate("Amir Peretz", 362719835, 1958, runningParties.get(0),10));
 		sickCandidates.add(new SickCandidate("Nitzan Horovitz", 284019372, 1962, runningParties.get(0),4));
@@ -100,7 +99,6 @@ public class MainModel {
 		Set<SickSoldier> sickSoldiers= new Set<>();
 		sickSoldiers.add(new SickSoldier("Or", 123567488, 2001,false,20));
 		elections.setSickSoldiersVoters(sickSoldiers);// election has sick soldiers + they are voters
-		
 		
 		Vector <Ballot <Soldier>> arrayB2= new Vector<>(); //election has ballots
 		Ballot <Soldier> b2 = new Ballot <Soldier>("Beer Sheva", runningParties);

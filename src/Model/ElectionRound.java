@@ -1,7 +1,9 @@
-package id315000539_id318353356_id208722710;
+package Model;
 
 import java.util.Scanner;
 import java.util.Vector;
+
+import javafx.scene.control.Label;
 
 public class ElectionRound implements Menuable {
 	public static int ELECTION_YEAR;
