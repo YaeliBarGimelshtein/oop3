@@ -1,4 +1,4 @@
-package id315000539_id318353356_id208722710;
+package Model;
 
 import java.util.Scanner;
 
@@ -20,4 +20,5 @@ public interface Menuable {
 	void elections(Scanner scan);
 
 	void ShowElectionResults();
+	
 }
