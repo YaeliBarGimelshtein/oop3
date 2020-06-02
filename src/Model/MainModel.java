@@ -11,6 +11,17 @@ public class MainModel {
 		 firstRound = hardCode(); 
 	}
 	
+	public void addABallotUpdate(Scanner scan) {
+		firstRound.addABallot(scan);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public void update(String button,Scanner scan) throws IDOutOfRange, ageOutOfRange { // when a new button is pressed- here needs to be the menu
 		do {
 		switch (button) {
@@ -133,4 +144,6 @@ public class MainModel {
 		elections.setBallotsAndVoters(); // citizens get ballots && ballots get citizens
 		return elections;
 	}
+
+	
 }
