@@ -1,15 +1,15 @@
 package Controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
 import java.util.Scanner;
 import Model.IDOutOfRange;
 import Model.MainModel;
 import Model.ageOutOfRange;
 import View.View;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Toggle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 //finish try catch
 //change to action listener
 public class Controller {
@@ -23,45 +23,15 @@ public class Controller {
 		this.theView=theView;
 		
 		//add event:
-//		ChangeListener<Toggle> buttonPressed= new ChangeListener<Toggle>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-//				String pressed;
-//				pressed= theView.getPressed();
-//				try {
-//					theView.update(theModel, pressed, scan);
-//				} catch (IDOutOfRange e) {
-//					// TODO Auto-generated catch block
-//					
-//				} catch (ageOutOfRange e) {
-//					// TODO Auto-generated catch block
-//					
-//				}
-//				
-//			}
-//		};
-//		theView.addChangeListenerToToggleGroup(buttonPressed);
-		
-		ActionListener buttonPressed= new ActionListener() {
-			
+		EventHandler<ActionEvent> addABallotPressed= new EventHandler<ActionEvent>() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				String pressed;
-				pressed= theView.getPressed();
-				try {
-					theView.update(theModel, pressed, scan);
-				} catch (IDOutOfRange er) {
-					// TODO Auto-generated catch block
-					
-				} catch (ageOutOfRange er) {
-					// TODO Auto-generated catch block
-					
-				}
-				
+			public void handle(ActionEvent arg0) {
+				theView.updateLabel("You have chose to add a ballot:");
+				theView.addABallotUpdate(theModel,scan);
 			}
 		};
-		theView.addActionListenerToView(buttonPressed);
+		theView.addEventHandlerToView(addABallotPressed);
 	}
 
 }
