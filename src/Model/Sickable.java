@@ -1,4 +1,4 @@
-package id315000539_id318353356_id208722710;
+package Model;
 
 public interface Sickable {
 	public int getNumOfSickDays();

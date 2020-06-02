@@ -1,7 +1,9 @@
-package id315000539_id318353356_id208722710;
+package Model;
 
 import java.util.Scanner;
 import java.util.Vector;
+
+import javafx.scene.control.Label;
 
 public class ElectionRound implements Menuable {
 	public static int ELECTION_YEAR;
@@ -337,9 +339,10 @@ public class ElectionRound implements Menuable {
 	}
 
 	// from menu:
-
+	//here needs to be connected to gui!!
 	public void addABallot(Scanner scan) {
 		System.out.println("You have chose to add a ballot:");
+		
 		System.out.println(
 				"Press 1 for Sick Citizen's ballot\nPress 2 for Soldier's ballot" + "\nPress 3 for a Citizens "
 						+ "ballot\nPress 4 for Sick Soldier's ballot\nPress 5 for Candidate's Ballot\n"
