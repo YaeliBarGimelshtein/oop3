@@ -3,7 +3,7 @@ package Model;
 import java.util.Scanner;
 
 public interface Menuable {
-	void addABallot(Scanner scan);
+	void addABallot(String kind, String address);
 
 	void addACitizen(Scanner scan) throws IDOutOfRange, ageOutOfRange;
 
@@ -20,5 +20,5 @@ public interface Menuable {
 	void elections(Scanner scan);
 
 	void ShowElectionResults();
-	
+
 }

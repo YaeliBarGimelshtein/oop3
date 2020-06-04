@@ -1,12 +1,13 @@
 package Controller;
 
-
-
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 import Model.IDOutOfRange;
 import Model.MainModel;
 import Model.ageOutOfRange;
 import View.View;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -15,23 +16,43 @@ import javafx.event.EventHandler;
 public class Controller {
 	private View theView;
 	private MainModel theModel;
-	
-	Scanner scan= new Scanner(System.in);
-	
+
+	Scanner scan = new Scanner(System.in);
+
 	public Controller(MainModel theModel, View theView) {
-		this.theModel=theModel;
-		this.theView=theView;
-		
-		//add event:
-		EventHandler<ActionEvent> addABallotPressed= new EventHandler<ActionEvent>() {
+		this.theModel = theModel;
+		this.theView = theView;
+
+		EventHandler<ActionEvent> addABallotPressed = new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent arg0) {
-				theView.updateLabel("You have chose to add a ballot:");
-				theView.addABallotUpdate(theModel,scan);
+			public void handle(ActionEvent event) {
+				theView.clearview();
+				theView.addABallot();
+
 			}
 		};
-		theView.addEventHandlerToView(addABallotPressed);
+		theView.addEventToAddABallot(addABallotPressed);
+
+		ChangeListener<String> comboBoxPressed = new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				theView.updateComboBox(theView.getFunction()); // later!!!
+
+			}
+		};
+
+		EventHandler<ActionEvent> addButtonPressed = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				theView.updateModel(theModel);
+
+			}
+		};
+		theView.addEventToAddButton(addButtonPressed);
+
 	}
 
 }
