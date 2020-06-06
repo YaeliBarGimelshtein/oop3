@@ -5,17 +5,17 @@ import java.util.Scanner;
 public interface Menuable {
 	void addABallot(String kind, String address);
 
-	void addACitizen(Scanner scan) throws IDOutOfRange, ageOutOfRange;
+	boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays) throws IDOutOfRange, ageOutOfRange;
 
-	void addAParty(Scanner scan);
+	void addAParty(String partyName, String partyFaction, String partyDate);
 
-	void addACandidateToParty(Scanner scan) throws ageOutOfRange, IDOutOfRange;
+	boolean addACandidateToParty(String kind, String name, int ID, int year, int sickDays, String party) throws ageOutOfRange, IDOutOfRange;
 
-	void showAllBallots();
+	String showAllBallots();
 
-	void showAllCitizens();
+	String showAllCitizens();
 
-	void showAllParties();
+	String showAllParties();
 
 	void elections(Scanner scan);
 
