@@ -417,6 +417,7 @@ public class View {
 				msg.setContentText("press next for next voter");
 				msg.show();
 			}
+			add.setDisable(true);
 		}
 
 	}
@@ -538,5 +539,15 @@ public class View {
 		txtField2.setDisable(true);
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("ID");
+		add.setDisable(false);
+		
+	}
+
+	public void endVote() {
+		Alert msg = new Alert(AlertType.CONFIRMATION);
+		msg.setHeaderText("Thank you for youre vote!");
+		msg.setContentText("the voting is done!");
+		msg.show();
+		clearview();
 	}
 }
