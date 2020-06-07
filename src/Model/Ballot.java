@@ -72,9 +72,9 @@ public class Ballot<T extends Citizen> {
 		potentialVoters++;
 	}
 
-	public boolean vote(Party selectedParty, T voter) {
+	public boolean vote(String selectedParty, T voter) {
 		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i).getParty().equals(selectedParty)) {
+			if (results.get(i).getParty().getName()==(selectedParty)) {
 				results.get(i).addVote();
 				numberOfActualVoters++;
 				return true;

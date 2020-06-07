@@ -42,6 +42,34 @@ public class MainModel {
 	public String showAllPartiesUpdate() {
 		return firstRound.showAllParties();
 	}
+	
+	public void electionsUpdate(String party,boolean vote) {
+		firstRound.elections(party, vote);
+//		for (int i = 0; i < firstRound.getCitizensVoters().size(); i++) {
+//			firstRound.elections(party,vote,);
+//		}
+//		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(SoldiersVoters.getObjectAtIndex(i).name,SoldiersVoters.getObjectAtIndex(i).ID);
+//			SoldiersVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < SickCitizensVoters.size(); i++) {
+//			theView.getVoterInfo(SickCitizensVoters.get(i).name,SickCitizensVoters.get(i).ID);
+//			SickCitizensVoters.get(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(SickSoldiersVoters.getObjectAtIndex(i).name,SickSoldiersVoters.getObjectAtIndex(i).ID);
+//			SickSoldiersVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(candidatesVoters.getObjectAtIndex(i).name,candidatesVoters.getObjectAtIndex(i).ID);
+//			candidatesVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(sickCandidatesVoters.getObjectAtIndex(i).name,sickCandidatesVoters.getObjectAtIndex(i).ID);
+//			sickCandidatesVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		//firstRound.elections(party,vote,theView);
+	}
 
 	public static ElectionRound hardCode() throws ageOutOfRange, IDOutOfRange {
 		ElectionRound elections = new ElectionRound(9, 2020);
@@ -130,5 +158,23 @@ public class MainModel {
 		theView.setPartiesToComboBox(firstRound.getRunningParties());
 
 	}
+
+	public String getVoterName() {
+		return firstRound.getVoterName();
+	}
+
+	public String getVoterID() {
+		return firstRound.getVoterID();
+	}
+
+	public void createVoters() {
+		firstRound.createVoters();
+	}
+
+	public boolean nextVoter() {
+		return firstRound.nextVoter();
+	}
+
+	
 
 }
