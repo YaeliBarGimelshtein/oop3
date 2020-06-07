@@ -52,7 +52,7 @@ public class Soldier extends Citizen {
 			throw new ageOutOfRange("Not legal to vote yet");
 		}
 	}
-	public void vote(Party selectedParty) {
+	public void vote(String selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}
 	
@@ -66,20 +66,12 @@ public class Soldier extends Citizen {
 		}
 	}
 	
-	public void vote(Scanner scan, Vector<Party> parties) {
-		System.out.println("Citizen: " + this.name + " ID: " + this.ID + " do you want to vote? Y for yes/N for no: ");
-		if (scan.next().toUpperCase().charAt(0) == 'Y') {
-			System.out.println("You are voting in : " + this.ballot);
-			System.out.println("choose a party from the list: ");
-			for (int i = 0; i < parties.size(); i++) {
-				System.out.println((i + 1) + "--> " + parties.get(i).getName());
-			}
-			int choise = scan.nextInt();
-			this.vote(parties.get(choise - 1));
+	public void vote(String party,boolean vote) {
+		if (vote) {
+			this.vote(party);
 			isVoting = true;
 		} else {
-			System.out.println("thank you, have a nice day!");
-			isVoting=false;
+			isVoting = false;
 		}
 	}
 }

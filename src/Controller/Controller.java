@@ -153,8 +153,11 @@ public class Controller {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theModel.nextVoter();
+				if(theModel.nextVoter()) {
 				theView.nextCitizen(theModel.getVoterName(),theModel.getVoterID());
+				}else {
+					theView.endVote();
+				}
 			}
 		};
 		theView.addEventToNextCitizen(nextCitizenPressed);
