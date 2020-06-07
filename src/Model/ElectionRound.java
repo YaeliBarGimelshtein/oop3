@@ -56,6 +56,14 @@ public class ElectionRound implements Menuable {
 		return true;
 	}
 
+	public Vector<String> getRunningParties(){
+		Vector<String> parties = new Vector<String>();
+		for (int i = 0; i < runningParties.size(); i++) {
+			parties.add(runningParties.get(i).getName());
+		}
+		return parties;
+	}
+
 	public boolean setSickCitizens(Set<SickCitizen> SickCitizen) { // boolean
 																	// since it
 																	// says so
@@ -377,180 +385,187 @@ public class ElectionRound implements Menuable {
 		}
 	}
 
-	public void addACitizen(Scanner scan) throws IDOutOfRange, ageOutOfRange {
-		System.out.println("You have chose to add a citizen");
-		System.out.println("Press 1 for Sick Citizen\nPress 2 for Soldier" + "\nPress 3 for a Citizen "
-				+ "\nPress 4 for Sick Soldier");
-		int choise = scan.nextInt();
+	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)
+			throws IDOutOfRange, ageOutOfRange {
 		boolean notTheSamePerson;
 		boolean isAbleToVote = false;
-		switch (choise) {
-		case 1:
-			SickCitizen temp = new SickCitizen(scan);
+		switch (kind) {
+		case "Sick Citizen":
+			SickCitizen temp = new SickCitizen(name, ID, year, sickDays);
 			notTheSamePerson = sickCitizens.add(temp);
 			if (!notTheSamePerson) {
-				System.out.println("Not able to add since this person is already registered");
-			} else {
-				System.out.print("Citizen was added successfuly");
-				isAbleToVote = setBallotAndASingleCitizen(temp);
-				if (isAbleToVote) {
-					SickCitizensVoters.add(temp);
-					this.sickCitizenBallot.get(0).addVoter(temp);
-				}
+				return false;
+			}
+			isAbleToVote = setBallotAndASingleCitizen(temp);
+			if (isAbleToVote) {
+				SickCitizensVoters.add(temp);
+				this.sickCitizenBallot.get(0).addVoter(temp);
 			}
 			break;
-		case 2:
-			Soldier temp2 = new Soldier(scan);
+
+		case "Soldier":
+			Soldier temp2 = new Soldier(name, ID, year, carryWeapon);
 			notTheSamePerson = SoldiersVoters.add(temp2);
 			if (!notTheSamePerson) {
-				System.out.println("Not able to add since this person is already registered");
-			} else {
-				System.out.print("Citizen was added successfuly");
-				isAbleToVote = setBallotAndASingleCitizen(temp2);
-				this.soldierBallot.get(0).addVoter(temp2);
+				return false;
 			}
+			isAbleToVote = setBallotAndASingleCitizen(temp2);
+			this.soldierBallot.get(0).addVoter(temp2);
 			break;
-		case 3:
-			Citizen temp3 = new Citizen(scan);
+
+		case "Citizen":
+			Citizen temp3 = new Citizen(name, ID, year);
 			notTheSamePerson = citizens.add(temp3);
 			if (!notTheSamePerson) {
-				System.out.println("Not able to add since this person is already registered");
-			} else {
-				System.out.print("Citizen was added successfuly");
-				isAbleToVote = setBallotAndASingleCitizen(temp3);
-				if (isAbleToVote) {
-					citizensVoters.add(temp3);
-					citizenBallot.get(0).addVoter(temp3);
-				}
+				return false;
+			}
+
+			isAbleToVote = setBallotAndASingleCitizen(temp3);
+			if (isAbleToVote) {
+				citizensVoters.add(temp3);
+				citizenBallot.get(0).addVoter(temp3);
 			}
 			break;
-		case 4:
-			SickSoldier temp4 = new SickSoldier(scan);
+
+		case "Sick Soldier":
+			SickSoldier temp4 = new SickSoldier(name, ID, year, carryWeapon, sickDays);
 			notTheSamePerson = SickSoldiersVoters.add(temp4);
 			if (!notTheSamePerson) {
-				System.out.println("Not able to add since this person is already registered");
-			} else {
-				System.out.print("Citizen was added successfuly");
-				isAbleToVote = setBallotAndASingleCitizen(temp4);
-				sickSoldierBallot.get(0).addVoter(temp4);
+				return false;
 			}
+
+			isAbleToVote = setBallotAndASingleCitizen(temp4);
+			sickSoldierBallot.get(0).addVoter(temp4);
 			break;
 		}
-		if (isAbleToVote) {
-			System.out.println(" and was matched with a ballot");
-		} else {
-			System.out.println(" and was not matched with a ballot since he is not old enough");
-		}
+
+		return true;
 	}
 
-	public void addAParty(Scanner scan) {
-		System.out.println("You have chose to add a party, please enter details:");
-		runningParties.add(new Party(scan));
-		System.out.println("Party was added successfuly");
+	public void addAParty(String partyName, String partyFaction, String partyDate) {
+		runningParties.add(new Party(partyName, partyFaction, partyDate));
 	}
 
-	public void addACandidateToParty(Scanner scan) throws ageOutOfRange, IDOutOfRange {
-		System.out.println(
-				"You have chose to add a candidate to a party:\nPress 1 for Candidate\n" + "Press 2 to Sick Candidate");
-		int typeCandidate = scan.nextInt();
-		System.out.println("Please press the number of wanted party.");
-		for (int i = 0; i < runningParties.size(); i++) {
-			System.out.println((i + 1) + "--> " + runningParties.get(i).getName());
-		}
-		int choise;
-		choise = scan.nextInt();
-		if (typeCandidate == 1) {
-			Candidate temp = (Candidate) runningParties.get(choise - 1).addCandidate(scan);
+	public boolean addACandidateToParty(String kind, String name, int ID, int year, int sickDays, String party)
+			throws ageOutOfRange, IDOutOfRange {
+		boolean notTheSamePerson;
+		if (kind == "Candidate") {
+			Candidate temp = null;
+			for (int i = 0; i < runningParties.size(); i++) {
+				if (runningParties.get(i).equals(party)) {
+					temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
+				}
+			}
+
 			if (temp != null) {
 				matchBallotAndCitizen(temp);
-				candidatesVoters.add(temp);
+				notTheSamePerson = candidatesVoters.add(temp);
+				if (!notTheSamePerson) {
+					return false;
+
+				}
+
+			} else if (kind == "Sick Candidate") {
+				SickCandidate temp2 = null;
+				for (int i = 0; i < runningParties.size(); i++) {
+					if (runningParties.get(i).equals(party)) {
+						temp2 = (SickCandidate) runningParties.get(i).addSickCandidate(name, ID, year, sickDays);
+					}
+				}
+				if (temp2 != null) {
+					matchBallotAndCitizen(temp2);
+					notTheSamePerson = sickCandidatesVoters.add(temp2);
+					if (!notTheSamePerson) {
+						return false;
+					}
+				}
 			}
-		} else if (typeCandidate == 2) {
-			SickCandidate temp2 = (SickCandidate) runningParties.get(choise - 1).addSickCandidate(scan);
-			if (temp2 != null) {
-				matchBallotAndCitizen(temp2);
-				sickCandidatesVoters.add(temp2);
-			}
+
 		}
+		return true;
 	}
 
-	public void showAllBallots() {
-		System.out.println("Here are all the ballots in this election:\n");
+	public String showAllBallots() {
+		StringBuffer str = new StringBuffer("Here are all the ballots in this election:\n");
 		if (citizenBallot.size() > 0) {
-			System.out.println("Citizen's ballots:");
+			str.append("Citizen's ballots:\n");
 			for (int i = 0; i < citizenBallot.size(); i++) {
-				System.out.println(citizenBallot.get(i).toString());
+				str.append(citizenBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
 		if (sickCitizenBallot.size() > 0) {
-			System.out.println("Sick Citizens Ballots:");
+			str.append("Sick Citizens Ballots: \n");
 			for (int i = 0; i < sickCitizenBallot.size(); i++) {
-				System.out.println(sickCitizenBallot.get(i).toString());
+				str.append(sickCitizenBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
 		if (soldierBallot.size() > 0) {
-			System.out.println("Soldiers Ballots:");
+			str.append("Soldiers Ballots: \n");
 			for (int i = 0; i < soldierBallot.size(); i++) {
-				System.out.println(soldierBallot.get(i).toString());
+				str.append(soldierBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
 		if (sickSoldierBallot.size() > 0) {
-			System.out.println("Sick Soldiers ballots:");
+			str.append("Sick Soldiers ballots: \n");
 			for (int i = 0; i < sickSoldierBallot.size(); i++) {
-				System.out.println(sickSoldierBallot.get(i).toString());
+				str.append(sickSoldierBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
 		if (candidateBallot.size() > 0) {
-			System.out.println("Candidates ballots:");
+			str.append("Candidates ballots: \n");
 			for (int i = 0; i < candidateBallot.size(); i++) {
-				System.out.println(candidateBallot.get(i).toString());
+				str.append(candidateBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
 		if (sickCandidateBallot.size() > 0) {
-			System.out.println("Sick Candidates ballots:");
+			str.append("Sick Candidates ballots: \n");
 			for (int i = 0; i < sickCandidateBallot.size(); i++) {
-				System.out.println(sickCandidateBallot.get(i).toString());
+				str.append(sickCandidateBallot.get(i).toString() + "\n");
 			}
 		}
-		System.out.println();
+		str.append("\n");
+		return str.toString();
 	}
 
-	public void showAllCitizens() {
-		System.out.println("Here are all the citizens in this election:\n");
+	public String showAllCitizens() {
+		StringBuffer str = new StringBuffer("Here are all the citizens in this election:\n");
+
 		for (int i = 0; i < citizens.getSetLenght(); i++) {
-			System.out.println(citizens.getObjectAtIndex(i));
+			str.append(citizens.getObjectAtIndex(i) + "\n");
 		}
 		for (int i = 0; i < sickCitizens.getSetLenght(); i++) {
-			System.out.println(sickCitizens.getObjectAtIndex(i));
+			str.append(sickCitizens.getObjectAtIndex(i) + "\n");
 		}
 		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
-			System.out.println(SoldiersVoters.getObjectAtIndex(i));
+			str.append(SoldiersVoters.getObjectAtIndex(i) + "\n");
 		}
 		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
-			System.out.println(SickSoldiersVoters.getObjectAtIndex(i));
+			str.append(SickSoldiersVoters.getObjectAtIndex(i) + "\n");
 		}
 
 		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
-			System.out.println(candidatesVoters.getObjectAtIndex(i));
+			str.append(candidatesVoters.getObjectAtIndex(i) + "\n");
 		}
 
 		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
-			System.out.println(sickCandidatesVoters.getObjectAtIndex(i));
+			str.append(sickCandidatesVoters.getObjectAtIndex(i) + "\n");
 		}
-		System.out.println();
+		str.append("\n");
+		return str.toString();
 	}
 
-	public void showAllParties() {
-		System.out.println("Here are all the parties in this election:\n");
+	public String showAllParties() {
+		StringBuffer str = new StringBuffer("Here are all the parties in this election:\n");
 		for (int i = 0; i < runningParties.size(); i++) {
-			System.out.println(runningParties.get(i));
+			str.append(runningParties.get(i) + "\n");
 		}
-		System.out.println();
+		str.append("\n");
+		return str.toString();
 	}
 
 	public void elections(Scanner scan) {

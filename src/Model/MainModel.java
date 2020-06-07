@@ -3,6 +3,8 @@ package Model;
 import java.util.Scanner;
 import java.util.Vector;
 
+import View.View;
+
 public class MainModel {
 	private ElectionRound firstRound;
 
@@ -12,6 +14,33 @@ public class MainModel {
 
 	public void addABallotUpdate(String kind, String adress) {
 		firstRound.addABallot(kind, adress);
+	}
+
+	public boolean addACitizenUpdate(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)
+			throws IDOutOfRange, ageOutOfRange {
+		return firstRound.addACitizen(kind, name, ID, year, carryWeapon, sickDays);
+	}
+
+	public void addAPartyUpdate(String partyName, String partyFaction, String partyDate) {
+		firstRound.addAParty(partyName, partyFaction, partyDate);
+	}
+
+	public boolean addACandidateUpdate(String kind, String name, int ID, int year, int sickDays, String party)
+			throws ageOutOfRange, IDOutOfRange {
+
+		return firstRound.addACandidateToParty(kind, name, ID, year, sickDays, party);
+	}
+
+	public String showAllBallotsUpdate() {
+		return firstRound.showAllBallots();
+	}
+
+	public String showAllCitizensUpdate() {
+		return firstRound.showAllCitizens();
+	}
+
+	public String showAllPartiesUpdate() {
+		return firstRound.showAllParties();
 	}
 
 	public static ElectionRound hardCode() throws ageOutOfRange, IDOutOfRange {
@@ -94,6 +123,12 @@ public class MainModel {
 		elections.setBallotsAndVoters(); // citizens get ballots && ballots get
 											// citizens
 		return elections;
+	}
+
+	public void updateParties(View theView) {
+
+		theView.setPartiesToComboBox(firstRound.getRunningParties());
+
 	}
 
 }

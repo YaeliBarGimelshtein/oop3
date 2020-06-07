@@ -33,13 +33,13 @@ public class Candidate extends Citizen {
 			this.birthYear = year;
 			setAge();
 		}
-		
+
 	}
 
 	public Party getAffiliationToParty() {
 		return affiliationToParty;
 	}
-	
+
 	protected void checkAge() throws ageOutOfRange {
 		if (this.getAge() < 18) {
 			throw new ageOutOfRange("Not legal to vote yet");
@@ -67,11 +67,11 @@ public class Candidate extends Citizen {
 		}
 		return str;
 	}
-	
+
 	public void vote(Party selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}
-	
+
 	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { // boolean since it says so un the taks
 		try {
 			checkAge();
