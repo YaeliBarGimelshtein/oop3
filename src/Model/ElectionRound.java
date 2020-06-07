@@ -3,6 +3,7 @@ package Model;
 import java.util.Scanner;
 import java.util.Vector;
 
+import View.View;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -26,6 +27,7 @@ public class ElectionRound implements Menuable {
 	private Set<SickSoldier> SickSoldiersVoters;
 
 	private Vector<Party> runningParties;
+	private Vector<Citizen> allVoters;
 
 	private Vector<Ballot<Citizen>> citizenBallot;
 	private Vector<Ballot<SickCitizen>> sickCitizenBallot;
@@ -36,6 +38,9 @@ public class ElectionRound implements Menuable {
 
 	private int ActualNumberOfVoters;
 	private int numberOfvoters;
+	private int voterNumber;
+	
+	private Citizen currentVoter;
 
 	public ElectionRound(int electionMonth, int electionYear) {
 		setElectionMonth(electionMonth);
@@ -48,6 +53,8 @@ public class ElectionRound implements Menuable {
 		runningParties = new Vector<>();
 		sickCitizens = new Set<>();
 		citizensVoters = new Vector<>();
+		allVoters=new Vector<Citizen>();
+		voterNumber=0;
 	}
 
 	public boolean setCitizens(Set<Citizen> citizens) { // boolean since it says
@@ -568,27 +575,32 @@ public class ElectionRound implements Menuable {
 		return str.toString();
 	}
 
-	public void elections(Scanner scan) {
-		System.out.println("You have chose to start the voting");
-		for (int i = 0; i < citizensVoters.size(); i++) {
-			citizensVoters.get(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
-			SoldiersVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SickCitizensVoters.size(); i++) {
-			SickCitizensVoters.get(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
-			SickSoldiersVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
-			candidatesVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
-			sickCandidatesVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		System.out.println("The voting is done\n");
+	public void elections(String party,boolean vote) {
+		currentVoter.vote(party,vote);
+//		for (int i = 0; i < citizensVoters.size(); i++) {
+//			theView.getVoterInfo(citizensVoters.get(i).name,citizensVoters.get(i).ID);
+//			citizensVoters.get(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(SoldiersVoters.getObjectAtIndex(i).name,SoldiersVoters.getObjectAtIndex(i).ID);
+//			SoldiersVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < SickCitizensVoters.size(); i++) {
+//			theView.getVoterInfo(SickCitizensVoters.get(i).name,SickCitizensVoters.get(i).ID);
+//			SickCitizensVoters.get(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(SickSoldiersVoters.getObjectAtIndex(i).name,SickSoldiersVoters.getObjectAtIndex(i).ID);
+//			SickSoldiersVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(candidatesVoters.getObjectAtIndex(i).name,candidatesVoters.getObjectAtIndex(i).ID);
+//			candidatesVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
+//		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
+//			theView.getVoterInfo(sickCandidatesVoters.getObjectAtIndex(i).name,sickCandidatesVoters.getObjectAtIndex(i).ID);
+//			sickCandidatesVoters.getObjectAtIndex(i).vote(party,vote);
+//		}
 	}
 
 	public void ShowElectionResults() {
@@ -622,6 +634,48 @@ public class ElectionRound implements Menuable {
 					+ runningParties.get(i).getNumberOfVoters() + " votes.");
 		}
 		System.out.println();
+	}
+	
+	public Vector<Citizen> getCitizensVoters(){
+		return this.citizensVoters;
+	}
+	
+	public boolean nextVoter() {
+		if(voterNumber<allVoters.size()) {
+			currentVoter=allVoters.get(voterNumber);
+			voterNumber++;
+			return true;
+		}
+		return false;
+	}
+
+	public String getVoterName() {
+		return currentVoter.getName();
+	}
+	
+	public String getVoterID() {
+		return ""+currentVoter.getID();
+	}
+
+	public void createVoters() {
+		for (int i = 0; i < citizensVoters.size(); i++) {
+			allVoters.add(citizensVoters.get(i));
+		}
+		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
+			allVoters.add(SoldiersVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
+			allVoters.add(SickSoldiersVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
+			allVoters.add(candidatesVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
+			allVoters.add(sickCandidatesVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < SickCitizensVoters.size(); i++) {
+			allVoters.add(SickCitizensVoters.get(i));
+		}
 	}
 
 }

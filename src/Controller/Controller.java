@@ -148,6 +148,32 @@ public class Controller {
 			}
 		};
 		theView.addEventToShowAllParties(showAllPartiesPressed);
+		
+		EventHandler<ActionEvent> nextCitizenPressed = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				theModel.nextVoter();
+				theView.nextCitizen(theModel.getVoterName(),theModel.getVoterID());
+			}
+		};
+		theView.addEventToNextCitizen(nextCitizenPressed);
+		
+		
+		EventHandler<ActionEvent> votePressed = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				theView.clearview();
+				theModel.updateParties(theView);
+				theModel.createVoters();
+				theModel.nextVoter();
+				theView.nextCitizen(theModel.getVoterName(),theModel.getVoterID());
+				theView.vote();
+			}
+		};
+		theView.addEventToVote(votePressed);
 	}
 
+	
 }
