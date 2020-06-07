@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class Candidate extends Citizen {
 	private Ballot<Candidate> ballot;
 	protected Party affiliationToParty;
@@ -19,23 +16,6 @@ public class Candidate extends Citizen {
 		}
 	}
 
-	public Candidate(Scanner scan, Party party) throws ageOutOfRange, IDOutOfRange {
-		super(scan);
-		try {
-			this.affiliationToParty = party;
-			checkAge();
-		}catch (ageOutOfRange notBigEnough) {
-			int year = 0;
-			do {
-				System.out.println("We are sorry, the age of a Candidate less 18, please re-enter year");
-				year = scan.nextInt();
-			} while (ElectionRound.ELECTION_YEAR -year<18);
-			this.birthYear = year;
-			setAge();
-		}
-
-	}
-
 	public Party getAffiliationToParty() {
 		return affiliationToParty;
 	}
@@ -50,7 +30,7 @@ public class Candidate extends Citizen {
 		return placeInParty;
 	}
 
-	public boolean setPlaceInParty(int placeInParty) { // boolean since it says so in the task
+	public boolean setPlaceInParty(int placeInParty) { 
 		this.placeInParty = placeInParty;
 		return true;
 	}
@@ -72,7 +52,7 @@ public class Candidate extends Citizen {
 		this.ballot.vote(selectedParty, this);
 	}
 
-	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { // boolean since it says so un the taks
+	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { 
 		try {
 			checkAge();
 			this.ballot = (Ballot<Candidate>) ballot;

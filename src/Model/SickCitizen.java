@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class SickCitizen extends Citizen implements Sickable {
 	private int numOfSickDays;
 	private Ballot<SickCitizen> ballot;
@@ -10,13 +7,6 @@ public class SickCitizen extends Citizen implements Sickable {
 	public SickCitizen(String name, int ID, int year,int days) throws IDOutOfRange {
 		super(name, ID, year);
 		setNumOfSickDays(days);
-	}
-	
-	public SickCitizen(Scanner scan)throws IDOutOfRange {
-		super(scan);
-		System.out.println("please let us know how many days you have been sick:");
-		this.numOfSickDays=scan.nextInt();
-		System.out.println("feel better!");
 	}
 
 	private void setNumOfSickDays(int days) {

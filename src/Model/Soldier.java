@@ -1,35 +1,21 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class Soldier extends Citizen {
 	protected boolean carryWeapon;
 	private Ballot<Soldier> ballot;
 
 
-	public Soldier(String name, int ID, int year,boolean weapon) throws IDOutOfRange  {
+	public Soldier(String name, int ID, int year,boolean weapon) throws IDOutOfRange,ageOutOfRange  {
 		super(name,ID,year);
+		try {
+			checkAge();
+		} catch (ageOutOfRange e) { //how to catch in gui
+			
+		}
 		this.carryWeapon=weapon;
 	}
-	
-	public Soldier(Scanner scan) throws IDOutOfRange,ageOutOfRange {
-		super(scan);
-		try {
-			System.out.println("please let us know if you carry a weapon(true/false):");
-			this.carryWeapon = scan.nextBoolean();
-			checkAge();
-		} catch (ageOutOfRange notBigEnough) {
-			int year = 0;
-			do {
-				System.out.println("We are sorry, the age of a Soldier is less 18, please re-enter year");
-				year = scan.nextInt();
-			} while (ElectionRound.ELECTION_YEAR -year<18 );
-			this.birthYear = year;
-			setAge();
-		}
-	}
-	
+
+
 	public boolean getCarryWeapon() {
 		return this.carryWeapon;
 	}

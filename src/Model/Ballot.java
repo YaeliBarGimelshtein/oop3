@@ -84,17 +84,17 @@ public class Ballot<T extends Citizen> {
 	}
 
 
-	public void showResults() {
+	public String showResults() {
 		StringBuffer str = new StringBuffer("Ballot number " + this.id + " located in " + this.address + " has "
 				+ this.numberOfActualVoters + " votes out of " + this.potentialVoters
 				+ " potential voters and has voting percentage of " + getVotersPercent() + "%\n");
 		str.append("And the results are: \n");
 		for (int i = 0; i < results.size(); i++) {
 			if (results.get(i) != null) {
-				str.append(results.get(i).toString());
+				str.append(results.get(i).toString()+"\n");
 			}
 		}
-		System.out.println(str.toString());
+		return str.toString();
 	}
 
 	public String toString() {

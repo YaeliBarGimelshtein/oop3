@@ -1,6 +1,5 @@
 package Controller;
 
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 import Model.IDOutOfRange;
 import Model.MainModel;
@@ -12,77 +11,77 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 //finish try catch
-//change to action listener
+
 public class Controller {
-	private View theView;
-	private MainModel theModel;
+	private View view;
+	private MainModel model;
 
 	Scanner scan = new Scanner(System.in);
 
 	public Controller(MainModel theModel, View theView) {
-		this.theModel = theModel;
-		this.theView = theView;
+		this.model = theModel;
+		this.view = theView;
 
 		EventHandler<ActionEvent> addABallotPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
-				theView.addABallot();
+				view.clearview();
+				view.addABallot();
 
 			}
 		};
-		theView.addEventToAddABallot(addABallotPressed);
+		view.addEventToAddABallot(addABallotPressed);
 
 		EventHandler<ActionEvent> addACititzenPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
-				theView.addACitizen();
+				view.clearview();
+				view.addACitizen();
 
 			}
 		};
-		theView.addEventToAddACitizen(addACititzenPressed);
+		view.addEventToAddACitizen(addACititzenPressed);
 
 		EventHandler<ActionEvent> addAPartyPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
-				theView.addAParty();
+				view.clearview();
+				view.addAParty();
 			}
 		};
-		theView.addEventToAddAParty(addAPartyPressed);
+		view.addEventToAddAParty(addAPartyPressed);
 
 		EventHandler<ActionEvent> addACandidatePressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
-				theModel.updateParties(theView);
-				theView.addACandidate();
+				view.clearview();
+				model.updateParties(view);
+				view.addACandidate();
 
 			}
 		};
-		theView.addEventToAddACandidate(addACandidatePressed);
+		view.addEventToAddACandidate(addACandidatePressed);
 
 		ChangeListener<String> comboBoxPressed = new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				theView.updateComboBox(); // later!!!
+				view.updateComboBox(); // later!!!
 
 			}
 		};
-		theView.addListenerToComboBox(comboBoxPressed);
+		view.addListenerToComboBox(comboBoxPressed);
 
 		EventHandler<ActionEvent> addButtonPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					theView.updateModel(theModel);
+					view.updateModel(model);
 				} catch (IDOutOfRange e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -93,15 +92,15 @@ public class Controller {
 
 			}
 		};
-		theView.addEventToAddButton(addButtonPressed);
+		view.addEventToAddButton(addButtonPressed);
 
 		EventHandler<ActionEvent> showAllBallotsPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
+				view.clearview();
 				try {
-					theView.showAllBallots(theModel);
+					view.showAllBallots(model);
 				} catch (IDOutOfRange e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -111,15 +110,15 @@ public class Controller {
 				}
 			}
 		};
-		theView.addEventToShowAllBallots(showAllBallotsPressed);
+		view.addEventToShowAllBallots(showAllBallotsPressed);
 
 		EventHandler<ActionEvent> showAllCitizensPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
+				view.clearview();
 				try {
-					theView.showAllCitizens(theModel);
+					view.showAllCitizens(model);
 				} catch (IDOutOfRange e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -129,15 +128,15 @@ public class Controller {
 				}
 			}
 		};
-		theView.addEventToShowAllCitizens(showAllCitizensPressed);
+		view.addEventToShowAllCitizens(showAllCitizensPressed);
 
 		EventHandler<ActionEvent> showAllPartiesPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
+				view.clearview();
 				try {
-					theView.showAllParties(theModel);
+					view.showAllParties(model);
 				} catch (IDOutOfRange e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -147,36 +146,65 @@ public class Controller {
 				}
 			}
 		};
-		theView.addEventToShowAllParties(showAllPartiesPressed);
+		view.addEventToShowAllParties(showAllPartiesPressed);
 		
 		EventHandler<ActionEvent> nextCitizenPressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if(theModel.nextVoter()) {
-				theView.nextCitizen(theModel.getVoterName(),theModel.getVoterID());
+				if(model.nextVoter()) {
+					view.nextCitizen(model.getVoterName(),model.getVoterID());
 				}else {
-					theView.endVote();
+					view.endVote();
 				}
 			}
 		};
-		theView.addEventToNextCitizen(nextCitizenPressed);
+		view.addEventToNextCitizen(nextCitizenPressed);
 		
 		
 		EventHandler<ActionEvent> votePressed = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				theView.clearview();
-				theModel.updateParties(theView);
-				theModel.createVoters();
-				theModel.nextVoter();
-				theView.nextCitizen(theModel.getVoterName(),theModel.getVoterID());
-				theView.vote();
+				view.clearview();
+				model.updateParties(view);
+				model.createVoters();
+				model.nextVoter();
+				view.nextCitizen(model.getVoterName(),model.getVoterID());
+				view.vote();
 			}
 		};
-		theView.addEventToVote(votePressed);
-	}
+		view.addEventToVote(votePressed);
+		
+		EventHandler<ActionEvent> showResultsPressed = new EventHandler<ActionEvent>() {
 
-	
+			@Override
+			public void handle(ActionEvent event) {
+				view.clearview();
+				try {
+					if(view.getVotingIsDone()) {
+					view.showResults(model);
+					}
+				} catch (IDOutOfRange e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ageOutOfRange e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		};
+		view.addEventToShowResults(showResultsPressed);
+		
+		EventHandler<ActionEvent> exitPressed = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				view.clearview();
+				System.exit(0);
+			}
+		};
+		view.addEventToExit(exitPressed);
+	}
 }
