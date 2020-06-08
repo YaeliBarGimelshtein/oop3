@@ -78,6 +78,7 @@ public class View {
 	private Text txtFieldtxt3;
 	private Text txtFieldtxt4;
 	private Text txtCheckBox;
+	private String resultsString;
 	//private Label output;
 
 	private BarChart<String,Number> barChart;
@@ -406,7 +407,7 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Citizen already in the system!");
+					msg.setContentText("Not possible to add");
 					msg.show();
 					clearview();
 				}
@@ -436,13 +437,10 @@ public class View {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must fill all the details!");
 				msg.show();
-			} else if (kind == "Sick Candidate") {
-				if (txtField4.getText().isEmpty()) {
+			} else if (kind == "Sick Candidate" && txtField4.getText().isEmpty() ) {
 					Alert msg = new Alert(AlertType.ERROR);
 					msg.setContentText("Must enter number of sick days!");
 					msg.show();
-				}
-
 			} else {
 				ID = Integer.parseInt(txtField2.getText());
 				year = Integer.parseInt(txtField3.getText());
@@ -456,12 +454,11 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Candidate already in the system!");
+					msg.setContentText("Not possible to add");
 					msg.show();
 					clearview();
 				}
 			}
-
 		} else if (function == "showAllBallots") {
 			Alert msg = new Alert(AlertType.INFORMATION);
 			msg.setContentText(theModel.showAllBallotsUpdate());
@@ -507,12 +504,9 @@ public class View {
 
 		} else if (function == "showResults") {
 			Alert msg = new Alert(AlertType.INFORMATION);
-			msg.setContentText(theModel.showResultsUpdate());
+			msg.setContentText(resultsString);
 			msg.show();
-			//output.setText(theModel.showResultsUpdate());
-			theModel.setInfoForView(results);
 			barChart.setVisible(true);
-			barChart.getData().add(results);
 		}
 	}
 
@@ -541,6 +535,8 @@ public class View {
 		txtField2.setDisable(false);
 		txtField.setText("");
 		txtField2.setText("");
+		txtField3.setText("");
+		txtField4.setText("");
 	}
 
 	public void updateComboBox() {
@@ -684,7 +680,7 @@ public class View {
 		party.setDisable(false);
 	}
 
-	public void endVote() {
+	public void endVote(MainModel model) {
 		voteIsDone = true;
 		Alert msg = new Alert(AlertType.CONFIRMATION);
 		msg.setHeaderText("Thank you for youre vote!");
@@ -692,6 +688,16 @@ public class View {
 		msg.show();
 		clearview();
 		showResults.setDisable(false);
+		this.vote.setDisable(true);
+		this.addABallot.setDisable(true);
+		this.addACitizen.setDisable(true);
+		this.addAParty.setDisable(true);
+		this.addACandidate.setDisable(true);
+		resultsString=model.showResultsUpdate();
+		model.setNumberOfVotersPerParty();
+		model.setInfoForView(results);
+		barChart.getData().add(results);
+		
 	}
 
 	public boolean getVotingIsDone() {

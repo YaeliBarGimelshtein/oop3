@@ -1,9 +1,8 @@
 package Model;
 
 import java.util.Vector;
-
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
+
 
 public class ElectionRound implements Menuable {
 	public static int ELECTION_YEAR;
@@ -273,13 +272,13 @@ public class ElectionRound implements Menuable {
 	}
 
 	private int calculateActualVoters() {
-		for (int i = 0; i < citizens.getSetLenght(); i++) {
-			if (citizens.getObjectAtIndex(i).getIsVoting()) {
+		for (int i = 0; i < citizensVoters.size(); i++) {
+			if (citizensVoters.get(i).getIsVoting()) {
 				ActualNumberOfVoters++;
 			}
 		}
-		for (int i = 0; i < sickCitizens.getSetLenght(); i++) {
-			if (sickCitizens.getObjectAtIndex(i).getIsVoting()) {
+		for (int i = 0; i < SickCitizensVoters.size(); i++) {
+			if (SickCitizensVoters.get(i).getIsVoting()) {
 				ActualNumberOfVoters++;
 			}
 		}
@@ -307,7 +306,7 @@ public class ElectionRound implements Menuable {
 		return ActualNumberOfVoters;
 	}
 
-	private boolean setNumberOfVotersPerParty() {
+	public boolean setNumberOfVotersPerParty() {
 		for (int i = 0; i < citizenBallot.size(); i++) {
 			Vector<BallotsResults> temp = citizenBallot.get(i).getResults();
 			setNumbers(temp);
@@ -371,14 +370,14 @@ public class ElectionRound implements Menuable {
 		}
 	}
 
-	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)
-			throws IDOutOfRange, ageOutOfRange {
+	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)throws IDOutOfRange, ageOutOfRange {
 		boolean notTheSamePerson;
 		boolean isAbleToVote = false;
 		switch (kind) {
 		case "Sick Citizen":
-			SickCitizen temp = new SickCitizen(name, ID, year, sickDays);
-			if(temp.getID()!=0) {
+			try {
+				checkID(ID);
+				SickCitizen temp = new SickCitizen(name, ID, year, sickDays);
 				notTheSamePerson = sickCitizens.add(temp);
 				if (!notTheSamePerson) {
 					return false;
@@ -388,45 +387,62 @@ public class ElectionRound implements Menuable {
 					SickCitizensVoters.add(temp);
 					this.sickCitizenBallot.get(0).addVoter(temp);
 				}
+			} catch (IDOutOfRange wrongID) {
+				return false;
 			}
 			break;
-
 		case "Soldier":
-			Soldier temp2 = new Soldier(name, ID, year, carryWeapon);
-			notTheSamePerson = SoldiersVoters.add(temp2);
-			if (!notTheSamePerson) {
+			try {
+				checkID(ID);
+				checkAgeSoldier(year);
+				Soldier temp2 = new Soldier(name, ID, year, carryWeapon);
+				notTheSamePerson = SoldiersVoters.add(temp2);
+				if (!notTheSamePerson) {
+					return false;
+				}
+				isAbleToVote = setBallotAndASingleCitizen(temp2);
+				this.soldierBallot.get(0).addVoter(temp2);
+			}catch (IDOutOfRange wrongID) {
+				return false;
+			}catch (ageOutOfRange worngAge) {
 				return false;
 			}
-			isAbleToVote = setBallotAndASingleCitizen(temp2);
-			this.soldierBallot.get(0).addVoter(temp2);
 			break;
-
 		case "Citizen":
-			Citizen temp3 = new Citizen(name, ID, year);
-			notTheSamePerson = citizens.add(temp3);
-			if (!notTheSamePerson) {
+			try {
+				checkID(ID);
+				Citizen temp3 = new Citizen(name, ID, year);
+				notTheSamePerson = citizens.add(temp3);
+				if (!notTheSamePerson) {
+					return false;
+				}
+				isAbleToVote = setBallotAndASingleCitizen(temp3);
+				if (isAbleToVote) {
+					citizensVoters.add(temp3);
+					citizenBallot.get(0).addVoter(temp3);
+				}
+			}catch (IDOutOfRange wrongID) {
 				return false;
-			}
-
-			isAbleToVote = setBallotAndASingleCitizen(temp3);
-			if (isAbleToVote) {
-				citizensVoters.add(temp3);
-				citizenBallot.get(0).addVoter(temp3);
 			}
 			break;
-
 		case "Sick Soldier":
-			SickSoldier temp4 = new SickSoldier(name, ID, year, carryWeapon, sickDays);
-			notTheSamePerson = SickSoldiersVoters.add(temp4);
-			if (!notTheSamePerson) {
+			try {
+				checkID(ID);
+				checkAgeSoldier(year);
+				SickSoldier temp4 = new SickSoldier(name, ID, year, carryWeapon, sickDays);
+				notTheSamePerson = SickSoldiersVoters.add(temp4);
+				if (!notTheSamePerson) {
+					return false;
+				}
+				isAbleToVote = setBallotAndASingleCitizen(temp4);
+				sickSoldierBallot.get(0).addVoter(temp4);
+			}catch (IDOutOfRange wrongID) {
+				return false;
+			}catch (ageOutOfRange worngAge) {
 				return false;
 			}
-
-			isAbleToVote = setBallotAndASingleCitizen(temp4);
-			sickSoldierBallot.get(0).addVoter(temp4);
 			break;
 		}
-
 		return true;
 	}
 
@@ -434,30 +450,40 @@ public class ElectionRound implements Menuable {
 		runningParties.add(new Party(partyName, partyFaction, partyDate));
 	}
 
-	public boolean addACandidateToParty(String kind, String name, int ID, int year, int sickDays, String party)
-			throws ageOutOfRange, IDOutOfRange {
+	public boolean addACandidateToParty(String kind, String name, int ID, int year, int sickDays, String party)throws ageOutOfRange, IDOutOfRange {
 		boolean notTheSamePerson;
-		if (kind == "Candidate") {
-			Candidate temp = null;
-			for (int i = 0; i < runningParties.size(); i++) {
-				if (party.equals(runningParties.get(i).getName())) {
-					temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
-					break;
+		switch(kind) {
+		case "Candidate":
+			try {
+				checkID(ID);
+				checkAgeCandidate(year);
+				Candidate temp = null;
+				for (int i = 0; i < runningParties.size(); i++) {
+					if (party.equals(runningParties.get(i).getName())) {
+						temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
+						break;
+					}
 				}
+				if (temp != null) {
+					matchBallotAndCitizen(temp);
+					notTheSamePerson = candidatesVoters.add(temp);
+					if (!notTheSamePerson) {
+						return false;
+					}
+				}
+			}catch (IDOutOfRange wrongID) {
+				return false;
+			}catch (ageOutOfRange worngAge) {
+				return false;
 			}
-
-			if (temp != null) {
-				matchBallotAndCitizen(temp);
-				notTheSamePerson = candidatesVoters.add(temp);
-				if (!notTheSamePerson) {
-					return false;
-
-				}
-
-			} else if (kind == "Sick Candidate") {
+			break;
+		case "Sick Candidate":
+			try {
+				checkID(ID);
+				checkAgeCandidate(year);
 				SickCandidate temp2 = null;
 				for (int i = 0; i < runningParties.size(); i++) {
-					if (runningParties.get(i).equals(party)) {
+					if (party.equals(runningParties.get(i).getName())) {
 						temp2 = (SickCandidate) runningParties.get(i).addSickCandidate(name, ID, year, sickDays);
 					}
 				}
@@ -468,8 +494,12 @@ public class ElectionRound implements Menuable {
 						return false;
 					}
 				}
+			}catch (IDOutOfRange wrongID) {
+				return false;
+			}catch (ageOutOfRange worngAge) {
+				return false;
 			}
-
+			break;	
 		}
 		return true;
 	}
@@ -586,8 +616,6 @@ public class ElectionRound implements Menuable {
 		for (int i = 0; i < sickCandidateBallot.size(); i++) {
 			str.append(sickCandidateBallot.get(i).showResults());
 		}
-
-		setNumberOfVotersPerParty();
 		return str.toString();
 	}
 
@@ -653,7 +681,22 @@ public class ElectionRound implements Menuable {
 		for (int i = 0; i < runningParties.size(); i++) {
 			xyChart.getData().add(new XYChart.Data(runningParties.get(i).getName(), runningParties.get(i).getNumberOfVoters()));
 		}
-
 	}
-
+	
+	private void checkID(int id)throws IDOutOfRange { 
+		if(id<100000000||id>999999999) {
+			throw new IDOutOfRange("Illegal ID");
+		}
+	}
+	private void checkAgeSoldier(int year) throws ageOutOfRange {
+		if(this.electionYear-year<18 || this.electionYear-year>21 ) {
+			throw new ageOutOfRange("Not the age for a Soldier");
+		}
+	}
+	private void checkAgeCandidate(int year) throws ageOutOfRange {
+		if(this.electionYear-year<18 ) {
+			throw new ageOutOfRange("Not legal to be an candidate");
+		}
+	}
+	
 }

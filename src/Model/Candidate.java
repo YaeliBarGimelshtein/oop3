@@ -5,26 +5,21 @@ public class Candidate extends Citizen {
 	protected Party affiliationToParty;
 	protected int placeInParty;
 
-	public Candidate(String name, int ID, int year, Party party) throws ageOutOfRange, IDOutOfRange {
+	public Candidate(String name, int ID, int year, Party party) {
 		super(name, ID, year);
-		try {
 		party.addCandidate(this);
-		checkAge();
 		this.affiliationToParty = party;
-		}catch(ageOutOfRange notBigEnough) {
-			throw new ageOutOfRange("Not legal to be a candidate yet");
-		}
 	}
 
 	public Party getAffiliationToParty() {
 		return affiliationToParty;
 	}
 
-	protected void checkAge() throws ageOutOfRange {
-		if (this.getAge() < 18) {
-			throw new ageOutOfRange("Not legal to vote yet");
-		}
-	}
+//	protected void checkAge() throws ageOutOfRange {
+//		if (this.getAge() < 18) {
+//			throw new ageOutOfRange("Not legal to vote yet");
+//		}
+//	}
 
 	public int getPlaceInParty() {
 		return placeInParty;

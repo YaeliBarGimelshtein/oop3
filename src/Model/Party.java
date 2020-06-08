@@ -46,26 +46,14 @@ public class Party {
 		placeInParty++;
 	}
 
-	public Candidate addCandidate(String name, int ID, int year) throws ageOutOfRange, IDOutOfRange {
-		try {
+	public Candidate addCandidate(String name, int ID, int year)  {
 			Candidate temp = new Candidate(name, ID, year, this);
 			return temp;
-		} catch (ageOutOfRange notBigEnough) {
-			return null;
-		}
 	}
 
 	public SickCandidate addSickCandidate(String name, int ID, int year, int sickDays) throws ageOutOfRange, IDOutOfRange {
-		try {
 			SickCandidate temp = new SickCandidate(name, ID, year, this, sickDays);
-			candidateList.add(temp);
-			temp.setPlaceInParty(placeInParty);
-			currentCandidates++;
-			placeInParty++;
 			return temp;
-		} catch (ageOutOfRange notBigEnough) {
-			return null;
-		}
 	}
 
 	@Override

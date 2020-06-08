@@ -166,6 +166,10 @@ public class MainModel {
 		firstRound.setInfoForView(xyChart);
 	}
 
+	public void setNumberOfVotersPerParty() {
+		firstRound.setNumberOfVotersPerParty();
+	}
+
 
 
 

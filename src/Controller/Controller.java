@@ -10,7 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-//finish try catch
+
 
 public class Controller {
 	private View view;
@@ -70,8 +70,7 @@ public class Controller {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				view.updateComboBox(); // later!!!
-
+				view.updateComboBox(); 
 			}
 		};
 		view.addListenerToComboBox(comboBoxPressed);
@@ -80,16 +79,15 @@ public class Controller {
 
 			@Override
 			public void handle(ActionEvent event) {
-				try {
-					view.updateModel(model);
-				} catch (IDOutOfRange e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ageOutOfRange e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+					try {
+						view.updateModel(model);
+					} catch (IDOutOfRange e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ageOutOfRange e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		};
 		view.addEventToAddButton(addButtonPressed);
@@ -155,7 +153,7 @@ public class Controller {
 				if(model.nextVoter()) {
 					view.nextCitizen(model.getVoterName(),model.getVoterID());
 				}else {
-					view.endVote();
+					view.endVote(model);
 				}
 			}
 		};
