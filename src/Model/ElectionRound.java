@@ -2,6 +2,9 @@ package Model;
 
 import java.util.Vector;
 
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
+
 public class ElectionRound implements Menuable {
 	public static int ELECTION_YEAR;
 
@@ -33,7 +36,7 @@ public class ElectionRound implements Menuable {
 	private int ActualNumberOfVoters;
 	private int numberOfvoters;
 	private int voterNumber;
-	
+
 	private Citizen currentVoter;
 
 	public ElectionRound(int electionMonth, int electionYear) {
@@ -47,8 +50,8 @@ public class ElectionRound implements Menuable {
 		runningParties = new Vector<>();
 		sickCitizens = new Set<>();
 		citizensVoters = new Vector<>();
-		allVoters=new Vector<Citizen>();
-		voterNumber=0;
+		allVoters = new Vector<Citizen>();
+		voterNumber = 0;
 	}
 
 	public boolean setCitizens(Set<Citizen> citizens) { // boolean since it says
@@ -57,7 +60,7 @@ public class ElectionRound implements Menuable {
 		return true;
 	}
 
-	public Vector<String> getRunningParties(){
+	public Vector<String> getRunningParties() {
 		Vector<String> parties = new Vector<String>();
 		for (int i = 0; i < runningParties.size(); i++) {
 			parties.add(runningParties.get(i).getName());
@@ -65,18 +68,18 @@ public class ElectionRound implements Menuable {
 		return parties;
 	}
 
-	public boolean setSickCitizens(Set<SickCitizen> SickCitizen) { 
+	public boolean setSickCitizens(Set<SickCitizen> SickCitizen) {
 		this.sickCitizens = SickCitizen;
 		return true;
 	}
 
-	public boolean setSoldiersVoters(Set<Soldier> Soldiers) { 
+	public boolean setSoldiersVoters(Set<Soldier> Soldiers) {
 		this.SoldiersVoters = Soldiers;
 		this.numberOfvoters += Soldiers.getSetLenght();
 		return true;
 	}
 
-	public boolean setSickSoldiersVoters(Set<SickSoldier> SickSoldiers) { 
+	public boolean setSickSoldiersVoters(Set<SickSoldier> SickSoldiers) {
 		this.SickSoldiersVoters = SickSoldiers;
 		this.numberOfvoters += SickSoldiers.getSetLenght();
 		return true;
@@ -166,7 +169,7 @@ public class ElectionRound implements Menuable {
 		return true;
 	}
 
-	public boolean setElectionYear(int electionYear) { 
+	public boolean setElectionYear(int electionYear) {
 		if (electionYear <= 0) {
 			this.electionYear = 2020;
 			return false;
@@ -304,7 +307,7 @@ public class ElectionRound implements Menuable {
 		return ActualNumberOfVoters;
 	}
 
-	private boolean setNumberOfVotersPerParty() { 
+	private boolean setNumberOfVotersPerParty() {
 		for (int i = 0; i < citizenBallot.size(); i++) {
 			Vector<BallotsResults> temp = citizenBallot.get(i).getResults();
 			setNumbers(temp);
@@ -368,7 +371,8 @@ public class ElectionRound implements Menuable {
 		}
 	}
 
-	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays) throws IDOutOfRange, ageOutOfRange {
+	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)
+			throws IDOutOfRange, ageOutOfRange {
 		boolean notTheSamePerson;
 		boolean isAbleToVote = false;
 		switch (kind) {
@@ -550,14 +554,16 @@ public class ElectionRound implements Menuable {
 		return str.toString();
 	}
 
-	public void elections(String party,boolean vote) {
-		currentVoter.vote(party,vote);
+	public void elections(String party, boolean vote) {
+		currentVoter.vote(party, vote);
 	}
 
 	public String ShowElectionResults() {
-		StringBuffer str = new StringBuffer(this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of " + this.numberOfvoters + 
-				" Potential voters. The voting percent of the election round: " + calculateTotalVotingPercent()+"\n");
-		
+		StringBuffer str = new StringBuffer(
+				this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of "
+						+ this.numberOfvoters + " Potential voters. The voting percent of the election round: "
+						+ calculateTotalVotingPercent() + "\n");
+
 		for (int i = 0; i < citizenBallot.size(); i++) {
 			str.append(citizenBallot.get(i).showResults());
 		}
@@ -577,23 +583,41 @@ public class ElectionRound implements Menuable {
 		for (int i = 0; i < sickCandidateBallot.size(); i++) {
 			str.append(sickCandidateBallot.get(i).showResults());
 		}
+
 		setNumberOfVotersPerParty();
-		str.append("The number of votes that each party got is: \n");
-		System.out.println();
-		for (int i = 0; i < runningParties.size(); i++) {
-			str.append("The party: " + runningParties.get(i).getName() + " got "
-					+ runningParties.get(i).getNumberOfVoters() + " votes.\n");
-		}
+
+		// str.append("The number of votes that each party got is: \n");
+		// System.out.println();
+		// for (int i = 0; i < runningParties.size(); i++) {
+		// str.append("The party: " + runningParties.get(i).getName() + " got "
+		// + runningParties.get(i).getNumberOfVoters() + " votes.\n");
+		// }
 		return str.toString();
 	}
-	
-	public Vector<Citizen> getCitizensVoters(){
+
+	public Vector<Integer> getVotersPerParty() {
+		Vector<Integer> resualts = new Vector<Integer>();
+		for (int i = 0; i < runningParties.size(); i++) {
+			resualts.add(runningParties.get(i).getNumberOfVoters());
+		}
+		return resualts;
+	}
+
+	public Vector<String> getNamePerParty() {
+		Vector<String> names = new Vector<String>();
+		for (int i = 0; i < runningParties.size(); i++) {
+			names.add(runningParties.get(i).getName());
+		}
+		return names;
+	}
+
+	public Vector<Citizen> getCitizensVoters() {
 		return this.citizensVoters;
 	}
-	
+
 	public boolean nextVoter() {
-		if(voterNumber<allVoters.size()) {
-			currentVoter=allVoters.get(voterNumber);
+		if (voterNumber < allVoters.size()) {
+			currentVoter = allVoters.get(voterNumber);
 			voterNumber++;
 			return true;
 		}
@@ -603,9 +627,9 @@ public class ElectionRound implements Menuable {
 	public String getVoterName() {
 		return currentVoter.getName();
 	}
-	
+
 	public String getVoterID() {
-		return ""+currentVoter.getID();
+		return "" + currentVoter.getID();
 	}
 
 	public void createVoters() {
@@ -627,6 +651,13 @@ public class ElectionRound implements Menuable {
 		for (int i = 0; i < SickCitizensVoters.size(); i++) {
 			allVoters.add(SickCitizensVoters.get(i));
 		}
+	}
+
+	public void setInfoForView(Series xyChart) {
+		for (int i = 0; i < runningParties.size(); i++) {
+			xyChart.getData().add(new XYChart.Data(runningParties.get(i).getName(), runningParties.get(i).getNumberOfVoters()));
+		}
+
 	}
 
 }

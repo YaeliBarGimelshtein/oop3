@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Vector;
 import View.View;
+import javafx.scene.chart.XYChart.Series;
 
 public class MainModel {
 	private ElectionRound firstRound;
@@ -40,11 +41,11 @@ public class MainModel {
 	public String showAllPartiesUpdate() {
 		return firstRound.showAllParties();
 	}
-	
+
 	public void electionsUpdate(String party,boolean vote) {
 		firstRound.elections(party, vote);
 	}
-	
+
 	public String showResultsUpdate() {
 		return firstRound.ShowElectionResults();
 	}
@@ -68,15 +69,15 @@ public class MainModel {
 										// citizens
 
 		Set<Candidate> candidates = new Set<>();
-		candidates.add(new Candidate("Benjamin Netanyahu", 251637285, 1949, runningParties.get(1)));
-		candidates.add(new Candidate("Beny Gantz", 278492871, 1959, runningParties.get(2)));
-		candidates.add(new Candidate("Miri Regev", 274958637, 1959, runningParties.get(1)));
-		candidates.add(new Candidate("Yair Lapid", 198365039, 1960, runningParties.get(2)));
+//		candidates.add(new Candidate("Benjamin Netanyahu", 251637285, 1949, runningParties.get(1)));
+//		candidates.add(new Candidate("Beny Gantz", 278492871, 1959, runningParties.get(2)));
+//		candidates.add(new Candidate("Miri Regev", 274958637, 1959, runningParties.get(1)));
+//		candidates.add(new Candidate("Yair Lapid", 198365039, 1960, runningParties.get(2)));
 		elections.setCandidatesVoters(candidates);
 
 		Set<SickCandidate> sickCandidates = new Set<>();
-		sickCandidates.add(new SickCandidate("Amir Peretz", 362719835, 1958, runningParties.get(0), 10));
-		sickCandidates.add(new SickCandidate("Nitzan Horovitz", 284019372, 1962, runningParties.get(0), 4));
+//		sickCandidates.add(new SickCandidate("Amir Peretz", 362719835, 1958, runningParties.get(0), 10));
+//		sickCandidates.add(new SickCandidate("Nitzan Horovitz", 284019372, 1962, runningParties.get(0), 4));
 		elections.setSickCandidatesVoters(sickCandidates);
 
 		Set<SickCitizen> sickCitizens = new Set<>();
@@ -154,9 +155,25 @@ public class MainModel {
 		return firstRound.nextVoter();
 	}
 
-	
+	public Vector<Integer> getVotersPerParty() {
 
-	
-	
+		return firstRound.getVotersPerParty();
+	}
+
+	public Vector<String> getNamePerParty() {
+
+		return firstRound.getNamePerParty();
+	}
+
+	public void setInfoForView(Series xyChart) {
+
+		firstRound.setInfoForView(xyChart);
+
+	}
+
+
+
+
+
 
 }
