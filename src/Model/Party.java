@@ -49,10 +49,6 @@ public class Party {
 	public Candidate addCandidate(String name, int ID, int year) throws ageOutOfRange, IDOutOfRange {
 		try {
 			Candidate temp = new Candidate(name, ID, year, this);
-			candidateList.add(temp);
-			temp.setPlaceInParty(placeInParty);
-			currentCandidates++;
-			placeInParty++;
 			return temp;
 		} catch (ageOutOfRange notBigEnough) {
 			return null;

@@ -74,7 +74,7 @@ public class Ballot<T extends Citizen> {
 
 	public boolean vote(String selectedParty, T voter) {
 		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i).getParty().getName()==(selectedParty)) {
+			if (results.get(i).getParty().getName().equals(selectedParty)) {
 				results.get(i).addVote();
 				numberOfActualVoters++;
 				return true;
@@ -85,16 +85,10 @@ public class Ballot<T extends Citizen> {
 
 
 	public String showResults() {
-		StringBuffer str = new StringBuffer("Ballot number " + this.id + " located in " + this.address + " has "
+		String str = "Ballot number " + this.id + " located in " + this.address + " has "
 				+ this.numberOfActualVoters + " votes out of " + this.potentialVoters
-				+ " potential voters and has voting percentage of " + getVotersPercent() + "%\n");
-		str.append("And the results are: \n");
-		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i) != null) {
-				str.append(results.get(i).toString()+"\n");
-			}
-		}
-		return str.toString();
+				+ " potential voters and has voting percentage of " + getVotersPercent() + "%\n";
+		return str;
 	}
 
 	public String toString() {

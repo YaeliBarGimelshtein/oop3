@@ -183,8 +183,7 @@ public class Controller {
 				view.clearview();
 				try {
 					if(view.getVotingIsDone()) {
-					model.setInfoForView(view.getXYChart());
-					view.showResults(model);
+						view.showResults(model);
 					}
 				} catch (IDOutOfRange e) {
 					// TODO Auto-generated catch block

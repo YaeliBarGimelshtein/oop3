@@ -378,14 +378,16 @@ public class ElectionRound implements Menuable {
 		switch (kind) {
 		case "Sick Citizen":
 			SickCitizen temp = new SickCitizen(name, ID, year, sickDays);
-			notTheSamePerson = sickCitizens.add(temp);
-			if (!notTheSamePerson) {
-				return false;
-			}
-			isAbleToVote = setBallotAndASingleCitizen(temp);
-			if (isAbleToVote) {
-				SickCitizensVoters.add(temp);
-				this.sickCitizenBallot.get(0).addVoter(temp);
+			if(temp.getID()!=0) {
+				notTheSamePerson = sickCitizens.add(temp);
+				if (!notTheSamePerson) {
+					return false;
+				}
+				isAbleToVote = setBallotAndASingleCitizen(temp);
+				if (isAbleToVote) {
+					SickCitizensVoters.add(temp);
+					this.sickCitizenBallot.get(0).addVoter(temp);
+				}
 			}
 			break;
 
@@ -438,8 +440,9 @@ public class ElectionRound implements Menuable {
 		if (kind == "Candidate") {
 			Candidate temp = null;
 			for (int i = 0; i < runningParties.size(); i++) {
-				if (runningParties.get(i).equals(party)) {
+				if (party.equals(runningParties.get(i).getName())) {
 					temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
+					break;
 				}
 			}
 
@@ -585,13 +588,6 @@ public class ElectionRound implements Menuable {
 		}
 
 		setNumberOfVotersPerParty();
-
-		// str.append("The number of votes that each party got is: \n");
-		// System.out.println();
-		// for (int i = 0; i < runningParties.size(); i++) {
-		// str.append("The party: " + runningParties.get(i).getName() + " got "
-		// + runningParties.get(i).getNumberOfVoters() + " votes.\n");
-		// }
 		return str.toString();
 	}
 
@@ -653,7 +649,7 @@ public class ElectionRound implements Menuable {
 		}
 	}
 
-	public void setInfoForView(Series xyChart) {
+	public void setInfoForView(XYChart.Series xyChart) {
 		for (int i = 0; i < runningParties.size(); i++) {
 			xyChart.getData().add(new XYChart.Data(runningParties.get(i).getName(), runningParties.get(i).getNumberOfVoters()));
 		}

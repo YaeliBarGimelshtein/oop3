@@ -20,15 +20,6 @@ public class Citizen {
 		}	
 	}
 
-
-	public Citizen(Citizen citizen) {
-		this.name = citizen.name;
-		this.ID=citizen.ID;	
-		setYear(citizen.getYear());
-		setAge();
-	}
-		
-
 	protected boolean setAge() { 
 		this.age = ElectionRound.ELECTION_YEAR - this.birthYear;
 		return true;
