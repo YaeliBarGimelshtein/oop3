@@ -1,16 +1,13 @@
 package View;
 
 import java.util.Vector;
-
 import Model.IDOutOfRange;
 import Model.MainModel;
-import Model.Party;
 import Model.ageOutOfRange;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -33,14 +30,35 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class View {
+	//buttons:
 	private Button addABallot;
 	private Button addACitizen;
 	private Button addACandidate;
 	private Button addAParty;
-	private VBox leftMenu;
+	private Button showAllBallots;
+	private Button showAllCitizens;
+	private Button showAllParties;
+	private Button vote;
+	private Button nextCitizen;
+	private Button showResults;
+	private Button exit;
+	private Button add;
+	
 	private ComboBox<String> kind;
 	private ComboBox<String> party;
-	private String function;
+	private CheckBox check;
+	//leyout:
+	private VBox leftMenu;
+	private BorderPane bp;
+	private Pane parametersPane;
+	private HBox parametersBox;
+	private VBox textFields;
+	private HBox txt1;
+	private HBox txt2;
+	private HBox txt3;
+	private HBox txt4;
+	private HBox HcheckBox;
+	//output:
 	private TextField txtField;
 	private TextField txtField2;
 	private TextField txtField3;
@@ -50,109 +68,120 @@ public class View {
 	private Text txtFieldtxt3;
 	private Text txtFieldtxt4;
 	private Text txtCheckBox;
-	private BorderPane bp;
-	private Pane parametersPane;
-	private HBox parametersBox;
-	private Button add;
-	private Button showAllBallots;
-	private Button showAllCitizens;
-	private Button showAllParties;
 	private Label output;
-	private VBox textFields;
-	private HBox txt1;
-	private HBox txt2;
-	private HBox txt3;
-	private HBox txt4;
-	private HBox HcheckBox;
-	private CheckBox check;
-
+	
+	private String function;
+	private boolean voteIsDone;
+	
 	public View(Stage primaryStage) {
-		add = new Button("Add!");
-		add.setPrefSize(100, 50);
-		add.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-
+		//buttons:
 		addABallot = new Button("Add Ballot");
-		addABallot.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		addABallot.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		addACitizen = new Button("Add Citizen");
-		addACitizen.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		addACitizen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		addACandidate = new Button("Add Candidate");
-		addACandidate.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		addACandidate.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		addAParty = new Button("Add Party");
-		addAParty.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		addAParty.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		showAllBallots = new Button("Show All Ballots");
-		showAllBallots.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		showAllBallots.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		showAllCitizens = new Button("Show All Cititzens");
-		showAllCitizens.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		showAllCitizens.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		showAllParties = new Button("Show All Parties");
-		showAllParties.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		showAllParties.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
-		// add.setFont(Font.font(20));
-		leftMenu = new VBox();
-		output = new Label();
-		output.setLayoutX(400);
-		output.setLayoutY(300);
-		output.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-		output.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		vote = new Button("vote!");
+		vote.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		
+		showResults=new Button("show Results");
+		showResults.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		showResults.setDisable(true);
+		
+		add = new Button("Add!");
+		add.setPrefSize(60, 30);
+		add.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
-		//// Text fields and texts area////
-
-		txtField = new TextField();
-		txtField2 = new TextField();
-		txtField3 = new TextField();
-		txtField4 = new TextField();
-		txtField.setPrefSize(250, 40);
-		txtField2.setPrefSize(250, 40);
-		txtField3.setPrefSize(250, 40);
-		txtField4.setPrefSize(250, 40);
-		txtFieldtxt = new Text();
-		txtFieldtxt.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-		txtFieldtxt2 = new Text();
-		txtFieldtxt2.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-		txtFieldtxt3 = new Text();
-		txtFieldtxt3.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-		txtFieldtxt4 = new Text();
-		txtFieldtxt4.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-		txtCheckBox = new Text();
-		txtCheckBox.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+		nextCitizen = new Button("Next");
+		nextCitizen.setPrefSize(60, 30);
+		nextCitizen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		
+		exit=new Button("Exit");
+		exit.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		
+		kind = new ComboBox<String>();
+		kind.setPrefSize(160, 30);
+		party = new ComboBox<String>();
+		party.setPrefSize(160, 30);
+		
 		check = new CheckBox();
+		//output:
+		output = new Label();
+		output.setLayoutX(60);
+		output.setLayoutY(250);
+		output.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+		output.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		txtField = new TextField();
+		txtField.setPrefSize(120, 40);
+		txtField2 = new TextField();
+		txtField2.setPrefSize(120, 40);
+		txtField3 = new TextField();
+		txtField3.setPrefSize(120, 40);
+		txtField4 = new TextField();
+		txtField4.setPrefSize(120, 40);
+		
+		txtFieldtxt = new Text();
+		txtFieldtxt.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt2 = new Text();
+		txtFieldtxt2.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt3 = new Text();
+		txtFieldtxt3.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt4 = new Text();
+		txtFieldtxt4.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		
+		txtCheckBox = new Text();
+		txtCheckBox.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		
+		//layout:
+		leftMenu = new VBox();
 		txt1 = new HBox();
 		txt2 = new HBox();
 		txt3 = new HBox();
 		txt4 = new HBox();
 		HcheckBox = new HBox();
+		textFields = new VBox();
+		bp = new BorderPane();
+		parametersPane = new Pane();
+		parametersBox = new HBox();
+		
+		//conenction between all:
+		voteIsDone=false;
 		txt1.getChildren().addAll(txtFieldtxt, txtField);
 		txt2.getChildren().addAll(txtFieldtxt2, txtField2);
 		txt3.getChildren().addAll(txtFieldtxt3, txtField3);
 		txt4.getChildren().addAll(txtFieldtxt4, txtField4);
+		
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
-		textFields = new VBox();
+		
 		textFields.getChildren().addAll(txt1, txt2, txt3, txt4, HcheckBox);
 
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
-				showAllCitizens, showAllParties);
+				showAllCitizens, showAllParties, vote, showResults,exit);
 
-		kind = new ComboBox<String>();
-		kind.setPrefSize(250, 40);
-		party = new ComboBox<String>();
-		party.setPrefSize(250, 40);
-
-		bp = new BorderPane();
-		parametersPane = new Pane();
-		parametersBox = new HBox();
-		parametersBox.getChildren().addAll(kind, party, textFields, add); // yakir
-																			// sim
-																			// oto
-																			// mitahat!!!!!!!!!!!
+		parametersBox.getChildren().addAll(kind, party, textFields, add, nextCitizen); // yakir
+		
 		parametersPane.getChildren().addAll(parametersBox, output);
 		parametersPane.setVisible(false);
+		
 		bp.setCenter(parametersPane);
 		bp.setLeft(leftMenu);
+		
 		BorderPane.setMargin(leftMenu, new Insets(20, 40, 20, 20));
 		BorderPane.setMargin(parametersPane, new Insets(20, 40, 20, 20));
 		HBox.setMargin(kind, new Insets(20, 40, 20, 20));
@@ -160,8 +189,7 @@ public class View {
 		HBox.setMargin(txtField, new Insets(20, 40, 20, 10));
 		HBox.setMargin(add, new Insets(20, 40, 20, 300));
 
-		Scene scene = new Scene(bp, 1700, 950);
-
+		Scene scene = new Scene(bp, 1250, 950);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
@@ -169,33 +197,33 @@ public class View {
 
 	public void addABallot() {
 		function = "addABallot";
+		add.setVisible(true);
+		add.setText("Add!");
 		parametersPane.setVisible(true);
 		parametersBox.setVisible(true);
 		kind.setVisible(true);
 		txt1.setVisible(true);
-		txt2.setVisible(false);
-		txt3.setVisible(false);
 		kind.getItems().addAll("Sick Citizen Ballot", "Soldier Ballot", "Citizen Ballot", "Sick Soldier Ballot",
 				"Candidate Ballot", "Sick Candidate Ballot");
 		kind.setValue("Sick Citizen Ballot");
 		txtFieldtxt.setText("Address");
-		kind.setStyle("-fx-font: 18px Verdana");
+		kind.setStyle("-fx-font: 12px Verdana");
 
 	}
 
 	public void addACitizen() {
 		function = "addACitizen";
+		add.setVisible(true);
+		add.setText("Add!");
 		parametersPane.setVisible(true);
 		parametersBox.setVisible(true);
 		kind.setVisible(true);
 		txt1.setVisible(true);
 		txt2.setVisible(true);
 		txt3.setVisible(true);
-		txt4.setVisible(false);
-		HcheckBox.setVisible(false);
 		kind.getItems().addAll("Citizen", "Soldier", "Sick Citizen", "Sick Soldier");
 		kind.setValue("Citizen");
-		kind.setStyle("-fx-font: 18px Verdana");
+		kind.setStyle("-fx-font: 12px Verdana");
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("ID");
 		txtFieldtxt3.setText("Birth year");
@@ -206,15 +234,16 @@ public class View {
 
 	public void addAParty() {
 		function = "addAParty";
+		add.setVisible(true);
+		add.setText("Add!");
 		parametersPane.setVisible(true);
 		parametersBox.setVisible(true);
 		txt1.setVisible(true);
 		txt2.setVisible(true);
-		txt3.setVisible(false);
 		kind.setVisible(true);
 		kind.getItems().addAll("Right", "Left", "Center");
 		kind.setValue("Right");
-		kind.setStyle("-fx-font: 18px Verdana");
+		kind.setStyle("-fx-font: 12px Verdana");
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("Date");
 
@@ -222,6 +251,8 @@ public class View {
 
 	public void addACandidate() {
 		function = "addACandidate";
+		add.setVisible(true);
+		add.setText("Add!");
 		parametersPane.setVisible(true);
 		parametersBox.setVisible(true);
 		kind.setVisible(true);
@@ -229,12 +260,10 @@ public class View {
 		txt1.setVisible(true);
 		txt2.setVisible(true);
 		txt3.setVisible(true);
-		txt4.setVisible(false);
-		HcheckBox.setVisible(false);
 		kind.getItems().addAll("Candidate", "Sick Candidate");
 		kind.setValue("Candidate");
-		kind.setStyle("-fx-font: 18px Verdana");
-		party.setStyle("-fx-font: 18px Verdana");
+		kind.setStyle("-fx-font: 12px Verdana");
+		party.setStyle("-fx-font: 12px Verdana");
 		party.setValue("Meretz");
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("ID");
@@ -245,7 +274,6 @@ public class View {
 
 	public void showAllBallots(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllBallots";
-		parametersBox.setVisible(false);
 		parametersPane.setVisible(true);
 		updateModel(theModel);
 
@@ -253,7 +281,6 @@ public class View {
 
 	public void showAllCitizens(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllCitizens";
-		parametersBox.setVisible(false);
 		parametersPane.setVisible(true);
 		updateModel(theModel);
 
@@ -261,14 +288,26 @@ public class View {
 
 	public void showAllParties(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllParties";
-		parametersBox.setVisible(false);
 		parametersPane.setVisible(true);
 		updateModel(theModel);
 	}
 
-	public void addEventToAddABallot(EventHandler<ActionEvent> addABallotPressed) {
-		addABallot.setOnAction(addABallotPressed);
-
+	public void vote() {
+		function = "vote";
+		kind.setVisible(true);
+		kind.getItems().addAll("Yes", "No");
+		add.setText("Done");
+		add.setVisible(true);
+		txt1.setVisible(true);
+		txt2.setVisible(true);
+		parametersPane.setVisible(true);
+		nextCitizen.setVisible(true);
+	}
+	
+	public void showResults(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
+		function = "showResults";
+		parametersPane.setVisible(true);
+		updateModel(theModel);
 	}
 
 	public void updateModel(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
@@ -344,7 +383,7 @@ public class View {
 			String name = txtField.getText();
 			int ID;
 			int year;
-			int sickDays=0;
+			int sickDays = 0;
 			if (txtField.getText().isEmpty() || txtField2.getText().isEmpty() || txtField3.getText().isEmpty()) {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must fill all the details!");
@@ -359,8 +398,8 @@ public class View {
 			} else {
 				ID = Integer.parseInt(txtField2.getText());
 				year = Integer.parseInt(txtField3.getText());
-				if(kind == "Sick Candidate")
-				sickDays = Integer.parseInt(txtField4.getText());
+				if (kind == "Sick Candidate")
+					sickDays = Integer.parseInt(txtField4.getText());
 				boolean added = theModel.addACandidateUpdate(kind, name, ID, year, sickDays, party);
 				if (added) {
 					Alert msg = new Alert(AlertType.CONFIRMATION);
@@ -381,17 +420,38 @@ public class View {
 			output.setText(theModel.showAllCitizensUpdate());
 		} else if (function == "showAllParties") {
 			output.setText(theModel.showAllPartiesUpdate());
+		} else if (function == "vote") {
+			Boolean isVoting = false;
+			if (getComboKind() == "") {
+				Alert msg = new Alert(AlertType.ERROR);
+				msg.setContentText("must choose whether to vote or not!");
+				msg.show();
+			} else {
+				if (getComboKind() == "Yes") {
+					isVoting = true;
+				}
+				String party = this.party.getValue();
+				theModel.electionsUpdate(party, isVoting);
+				Alert msg = new Alert(AlertType.CONFIRMATION);
+				msg.setHeaderText("Thank you for youre vote!");
+				msg.setContentText("press next for next voter");
+				msg.show();
+			}
+			add.setDisable(true);
+		}else if (function=="showResults") {
+			output.setText(theModel.showResultsUpdate());
 		}
+			
 
 	}
 
 	public String getComboKind() {
-
 		return kind.getValue();
 	}
 
 	public void clearview() {
 		kind.getItems().clear();
+		party.getItems().clear();
 		output.setText("");
 		check.setSelected(false);
 		txt1.setVisible(false);
@@ -399,6 +459,14 @@ public class View {
 		txt3.setVisible(false);
 		txt4.setVisible(false);
 		HcheckBox.setVisible(false);
+		kind.setVisible(false);
+		party.setVisible(false);
+		add.setVisible(false);
+		nextCitizen.setVisible(false);
+		txtField.setDisable(false);
+		txtField2.setDisable(false);
+		txtField.setText("");
+		txtField2.setText("");
 	}
 
 	public void updateComboBox() {
@@ -413,14 +481,23 @@ public class View {
 			} else {
 				HcheckBox.setVisible(false);
 			}
-		}
-		else if (function == "addACandidate"){
+		} else if (function == "addACandidate") {
 			if (getComboKind() == "Sick Candidate") {
 				txt4.setVisible(true);
 			} else {
 				txt4.setVisible(false);
 			}
+		} else if (function == "vote") {
+			if (getComboKind() == "Yes") {
+				party.setVisible(true);
+			} else {
+				party.setVisible(false);
+			}
 		}
+	}
+
+	public void addEventToAddABallot(EventHandler<ActionEvent> addABallotPressed) {
+		addABallot.setOnAction(addABallotPressed);
 	}
 
 	public void addEventToAddButton(EventHandler<ActionEvent> addButtonPressed) {
@@ -463,9 +540,56 @@ public class View {
 
 	}
 
+	public void addEventToVote(EventHandler<ActionEvent> votePressed) {
+		vote.setOnAction(votePressed);
+	}
+
 	public void setPartiesToComboBox(Vector<String> runningParties) {
 		party.getItems().addAll(runningParties);
 
 	}
 
+	public void addEventToNextCitizen(EventHandler<ActionEvent> nextCitizenPressed) {
+		nextCitizen.setOnAction(nextCitizenPressed);
+	}
+	
+	public void addEventToShowResults(EventHandler<ActionEvent> showResultsPressed) {
+		showResults.setOnAction(showResultsPressed);
+	}
+	
+	public void addEventToExit(EventHandler<ActionEvent> exitPressed) {
+		exit.setOnAction(exitPressed);
+	}
+	
+
+	public void nextCitizen(String voterName, String voterID) {
+		kind.setValue("");
+		party.setValue("");
+		txtField.setText(voterName);
+		txtField.setDisable(true);
+		txtField2.setText(voterID);
+		txtField2.setDisable(true);
+		txtFieldtxt.setText("Name");
+		txtFieldtxt2.setText("ID");
+		add.setDisable(false);
+		
+	}
+
+	public void endVote() {
+		voteIsDone=true;
+		Alert msg = new Alert(AlertType.CONFIRMATION);
+		msg.setHeaderText("Thank you for youre vote!");
+		msg.setContentText("the voting is done!");
+		msg.show();
+		clearview();
+		showResults.setDisable(false);
+	}
+
+	public boolean getVotingIsDone() {
+		return voteIsDone;
+	}
+
+	
+
+	
 }

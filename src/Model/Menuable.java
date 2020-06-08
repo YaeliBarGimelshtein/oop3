@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.Scanner;
 
 public interface Menuable {
 	void addABallot(String kind, String address);
@@ -17,8 +16,8 @@ public interface Menuable {
 
 	String showAllParties();
 
-	void elections(Scanner scan);
+	void elections(String party,boolean vote);
 
-	void ShowElectionResults();
+	String ShowElectionResults();
 
 }

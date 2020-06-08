@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class SickCandidate extends Candidate implements Sickable {
 	private int numOfSickDays;
 	private Ballot<SickCandidate> ballot;
@@ -10,13 +7,6 @@ public class SickCandidate extends Candidate implements Sickable {
 	public SickCandidate(String name, int ID, int year, Party party, int days) throws ageOutOfRange, IDOutOfRange {
 		super(name, ID, year, party);
 		setNumOfSickDays(days);
-	}
-
-	public SickCandidate(Scanner scan, Party party) throws ageOutOfRange, IDOutOfRange {
-		super(scan, party);
-		System.out.println("please let us know how many days you have been sick:");
-		this.numOfSickDays = scan.nextInt();
-		System.out.println("feel better!");
 	}
 
 	public int getNumOfSickDays() {
@@ -31,7 +21,7 @@ public class SickCandidate extends Candidate implements Sickable {
 		}
 	}
 
-	public boolean setPlaceInParty(int placeInParty) { // boolean since it says so in the task
+	public boolean setPlaceInParty(int placeInParty) { 
 		this.placeInParty = placeInParty;
 		return true;
 	}
@@ -50,7 +40,7 @@ public class SickCandidate extends Candidate implements Sickable {
 		return (numOfSickDays == other.numOfSickDays && super.equals(other));
 	}
 
-	public void vote(Party selectedParty) {
+	public void vote(String selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}
 
@@ -64,26 +54,12 @@ public class SickCandidate extends Candidate implements Sickable {
 		}
 	}
 
-	public void vote(Scanner scan, Vector<Party> parties) {
-		System.out.println("Citizen: " + this.name + " ID: " + this.ID + " do you want to vote? Y for yes/N for no: ");
-		if (scan.next().toUpperCase().charAt(0) == 'Y') {
-			System.out.println("Do you have a protective suit? Y for yes/N for no: ");
-			if (scan.next().toUpperCase().charAt(0) == 'N') {
-				System.out.println("We are very sorry, you can't vote");
-				isVoting=false;
-				return;
-			}
-			System.out.println("You are voting in : " + this.ballot);
-			System.out.println("choose a party from the list: ");
-			for (int i = 0; i < parties.size(); i++) {
-				System.out.println((i + 1) + "--> " + parties.get(i).getName());
-			}
-			int choise = scan.nextInt();
-			this.vote(parties.get(choise - 1));
+	public void vote(String party,boolean vote) {
+		if (vote) {
+			this.vote(party);
 			isVoting = true;
 		} else {
-			System.out.println("thank you, have a nice day!");
-			isVoting=false;
+			isVoting = false;
 		}
 	}
 

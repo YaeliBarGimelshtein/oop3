@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class Citizen {
 	protected String name;
 	protected int ID;
@@ -18,31 +15,10 @@ public class Citizen {
 		setID(ID);
 		setYear(year);
 		setAge();
-		}catch(IDOutOfRange wrongID){
-			throw new IDOutOfRange("Illegal ID");
+		}catch(IDOutOfRange wrongID){ //how to catch in gui?
+			return;
 		}	
 	}
-
-	public Citizen(Scanner scan) throws IDOutOfRange {
-		try {
-			System.out.println("please enter the citizen's name:");
-			scan.nextLine();
-			this.name = scan.nextLine();
-			System.out.println("please enter the citizen's birth year:");
-			this.birthYear = scan.nextInt();
-			setAge();
-			System.out.println("please enter the citizen's ID:");
-			setID(scan.nextInt());
-			}catch(IDOutOfRange wrongID){
-				int tempId;
-				do {
-					System.out.println("Inccorect id. please enter 9 digit ID");
-					tempId= scan.nextInt();
-					idCorrect=checkId(tempId);
-				} while (!idCorrect);
-				this.ID=tempId;
-			}
-		}
 
 
 	public Citizen(Citizen citizen) {
@@ -53,7 +29,7 @@ public class Citizen {
 	}
 		
 
-	protected boolean setAge() { // boolean since it says so in the task
+	protected boolean setAge() { 
 		this.age = ElectionRound.ELECTION_YEAR - this.birthYear;
 		return true;
 	}
@@ -92,7 +68,7 @@ public class Citizen {
 	}
 
 
-	private boolean setYear(int year) { // boolean since it says so in the task
+	private boolean setYear(int year) { 
 		if (year > 0 && year < 2021) {
 			this.birthYear = year;
 			return true;
@@ -102,19 +78,13 @@ public class Citizen {
 		}
 	}
 
-	private boolean setID(int iD)throws IDOutOfRange { // boolean since it says so in the task
+	private boolean setID(int iD)throws IDOutOfRange { 
 		if(iD<100000000||iD>999999999) {
 			throw new IDOutOfRange("Illegal ID");
 		}else {
 		this.ID=iD;
 		return true;
 		}
-	}
-	private boolean checkId(int idTemp) {
-		if(idTemp<100000000||idTemp>999999999) {
-			return false;
-		}
-		return true;
 	}
 
 	public String getName() {
@@ -126,7 +96,7 @@ public class Citizen {
 	}
 
 	
-	public void vote(Party selectedParty) {
+	public void vote(String selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}
 	 
@@ -140,19 +110,11 @@ public class Citizen {
 		return true;
 	}
 
-	public void vote(Scanner scan, Vector<Party> parties) {
-		System.out.println("Citizen: " + this.name + " ID: " + this.ID + " do you want to vote? Y for yes/N for no: ");
-		if (scan.next().toUpperCase().charAt(0) == 'Y') {
-			System.out.println("You are voting in : " + this.ballot);
-			System.out.println("choose a party from the list: ");
-			for (int i = 0; i < parties.size(); i++) {
-				System.out.println((i + 1) + "--> " + parties.get(i).getName());
-			}
-			int choise = scan.nextInt();
-			this.vote(parties.get(choise - 1));
+	public void vote(String party,boolean vote) {
+		if (vote) {
+			this.vote(party);
 			isVoting = true;
 		} else {
-			System.out.println("thank you, have a nice day!");
 			isVoting = false;
 		}
 	}

@@ -1,35 +1,21 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class Soldier extends Citizen {
 	protected boolean carryWeapon;
 	private Ballot<Soldier> ballot;
 
 
-	public Soldier(String name, int ID, int year,boolean weapon) throws IDOutOfRange  {
+	public Soldier(String name, int ID, int year,boolean weapon) throws IDOutOfRange,ageOutOfRange  {
 		super(name,ID,year);
+		try {
+			checkAge();
+		} catch (ageOutOfRange e) { //how to catch in gui
+			
+		}
 		this.carryWeapon=weapon;
 	}
-	
-	public Soldier(Scanner scan) throws IDOutOfRange,ageOutOfRange {
-		super(scan);
-		try {
-			System.out.println("please let us know if you carry a weapon(true/false):");
-			this.carryWeapon = scan.nextBoolean();
-			checkAge();
-		} catch (ageOutOfRange notBigEnough) {
-			int year = 0;
-			do {
-				System.out.println("We are sorry, the age of a Soldier is less 18, please re-enter year");
-				year = scan.nextInt();
-			} while (ElectionRound.ELECTION_YEAR -year<18 );
-			this.birthYear = year;
-			setAge();
-		}
-	}
-	
+
+
 	public boolean getCarryWeapon() {
 		return this.carryWeapon;
 	}
@@ -52,7 +38,7 @@ public class Soldier extends Citizen {
 			throw new ageOutOfRange("Not legal to vote yet");
 		}
 	}
-	public void vote(Party selectedParty) {
+	public void vote(String selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}
 	
@@ -66,20 +52,12 @@ public class Soldier extends Citizen {
 		}
 	}
 	
-	public void vote(Scanner scan, Vector<Party> parties) {
-		System.out.println("Citizen: " + this.name + " ID: " + this.ID + " do you want to vote? Y for yes/N for no: ");
-		if (scan.next().toUpperCase().charAt(0) == 'Y') {
-			System.out.println("You are voting in : " + this.ballot);
-			System.out.println("choose a party from the list: ");
-			for (int i = 0; i < parties.size(); i++) {
-				System.out.println((i + 1) + "--> " + parties.get(i).getName());
-			}
-			int choise = scan.nextInt();
-			this.vote(parties.get(choise - 1));
+	public void vote(String party,boolean vote) {
+		if (vote) {
+			this.vote(party);
 			isVoting = true;
 		} else {
-			System.out.println("thank you, have a nice day!");
-			isVoting=false;
+			isVoting = false;
 		}
 	}
 }

@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.Scanner;
 import java.util.Vector;
-
 import View.View;
 
 public class MainModel {
@@ -42,6 +40,15 @@ public class MainModel {
 	public String showAllPartiesUpdate() {
 		return firstRound.showAllParties();
 	}
+	
+	public void electionsUpdate(String party,boolean vote) {
+		firstRound.elections(party, vote);
+	}
+	
+	public String showResultsUpdate() {
+		return firstRound.ShowElectionResults();
+	}
+
 
 	public static ElectionRound hardCode() throws ageOutOfRange, IDOutOfRange {
 		ElectionRound elections = new ElectionRound(9, 2020);
@@ -130,5 +137,26 @@ public class MainModel {
 		theView.setPartiesToComboBox(firstRound.getRunningParties());
 
 	}
+
+	public String getVoterName() {
+		return firstRound.getVoterName();
+	}
+
+	public String getVoterID() {
+		return firstRound.getVoterID();
+	}
+
+	public void createVoters() {
+		firstRound.createVoters();
+	}
+
+	public boolean nextVoter() {
+		return firstRound.nextVoter();
+	}
+
+	
+
+	
+	
 
 }

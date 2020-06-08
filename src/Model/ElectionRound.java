@@ -1,11 +1,6 @@
 package Model;
 
-import java.util.Scanner;
 import java.util.Vector;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
 
 public class ElectionRound implements Menuable {
 	public static int ELECTION_YEAR;
@@ -26,6 +21,7 @@ public class ElectionRound implements Menuable {
 	private Set<SickSoldier> SickSoldiersVoters;
 
 	private Vector<Party> runningParties;
+	private Vector<Citizen> allVoters;
 
 	private Vector<Ballot<Citizen>> citizenBallot;
 	private Vector<Ballot<SickCitizen>> sickCitizenBallot;
@@ -36,6 +32,9 @@ public class ElectionRound implements Menuable {
 
 	private int ActualNumberOfVoters;
 	private int numberOfvoters;
+	private int voterNumber;
+	
+	private Citizen currentVoter;
 
 	public ElectionRound(int electionMonth, int electionYear) {
 		setElectionMonth(electionMonth);
@@ -48,6 +47,8 @@ public class ElectionRound implements Menuable {
 		runningParties = new Vector<>();
 		sickCitizens = new Set<>();
 		citizensVoters = new Vector<>();
+		allVoters=new Vector<Citizen>();
+		voterNumber=0;
 	}
 
 	public boolean setCitizens(Set<Citizen> citizens) { // boolean since it says
@@ -64,31 +65,18 @@ public class ElectionRound implements Menuable {
 		return parties;
 	}
 
-	public boolean setSickCitizens(Set<SickCitizen> SickCitizen) { // boolean
-																	// since it
-																	// says so
-																	// in the
-																	// task
+	public boolean setSickCitizens(Set<SickCitizen> SickCitizen) { 
 		this.sickCitizens = SickCitizen;
 		return true;
 	}
 
-	public boolean setSoldiersVoters(Set<Soldier> Soldiers) { // boolean since
-																// it says so in
-																// the task
+	public boolean setSoldiersVoters(Set<Soldier> Soldiers) { 
 		this.SoldiersVoters = Soldiers;
 		this.numberOfvoters += Soldiers.getSetLenght();
 		return true;
 	}
 
-	public boolean setSickSoldiersVoters(Set<SickSoldier> SickSoldiers) { // boolean
-																			// since
-																			// it
-																			// says
-																			// so
-																			// in
-																			// the
-																			// task
+	public boolean setSickSoldiersVoters(Set<SickSoldier> SickSoldiers) { 
 		this.SickSoldiersVoters = SickSoldiers;
 		this.numberOfvoters += SickSoldiers.getSetLenght();
 		return true;
@@ -169,9 +157,7 @@ public class ElectionRound implements Menuable {
 
 	}
 
-	public boolean setElectionMonth(int electionMonth) { // boolean since it
-															// says so in the
-															// task
+	public boolean setElectionMonth(int electionMonth) {
 		if (this.electionMonth > 12 || electionMonth < 1) {
 			this.electionMonth = 1;
 			return false;
@@ -180,8 +166,7 @@ public class ElectionRound implements Menuable {
 		return true;
 	}
 
-	public boolean setElectionYear(int electionYear) { // boolean since it says
-														// so in the task
+	public boolean setElectionYear(int electionYear) { 
 		if (electionYear <= 0) {
 			this.electionYear = 2020;
 			return false;
@@ -319,8 +304,7 @@ public class ElectionRound implements Menuable {
 		return ActualNumberOfVoters;
 	}
 
-	private boolean setNumberOfVotersPerParty() { // boolean since it says so in
-													// the task
+	private boolean setNumberOfVotersPerParty() { 
 		for (int i = 0; i < citizenBallot.size(); i++) {
 			Vector<BallotsResults> temp = citizenBallot.get(i).getResults();
 			setNumbers(temp);
@@ -362,7 +346,6 @@ public class ElectionRound implements Menuable {
 	}
 
 	// from menu:
-	// here needs to be connected to gui!!
 	public void addABallot(String kind, String adress) {
 		switch (kind) {
 		case "Sick Citizen Ballot":
@@ -385,8 +368,7 @@ public class ElectionRound implements Menuable {
 		}
 	}
 
-	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays)
-			throws IDOutOfRange, ageOutOfRange {
+	public boolean addACitizen(String kind, String name, int ID, int year, boolean carryWeapon, int sickDays) throws IDOutOfRange, ageOutOfRange {
 		boolean notTheSamePerson;
 		boolean isAbleToVote = false;
 		switch (kind) {
@@ -568,60 +550,83 @@ public class ElectionRound implements Menuable {
 		return str.toString();
 	}
 
-	public void elections(Scanner scan) {
-		System.out.println("You have chose to start the voting");
-		for (int i = 0; i < citizensVoters.size(); i++) {
-			citizensVoters.get(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
-			SoldiersVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SickCitizensVoters.size(); i++) {
-			SickCitizensVoters.get(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
-			SickSoldiersVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
-			candidatesVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
-			sickCandidatesVoters.getObjectAtIndex(i).vote(scan, runningParties);
-		}
-		System.out.println("The voting is done\n");
+	public void elections(String party,boolean vote) {
+		currentVoter.vote(party,vote);
 	}
 
-	public void ShowElectionResults() {
-		System.out.println(this.toString() + " is over.");
-		System.out.println("The number of voters is " + calculateActualVoters() + " out of " + this.numberOfvoters
-				+ " Potential voters. " + "The voting percent of the election round: " + calculateTotalVotingPercent()
-				+ "%\n");
+	public String ShowElectionResults() {
+		StringBuffer str = new StringBuffer(this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of " + this.numberOfvoters + 
+				" Potential voters. The voting percent of the election round: " + calculateTotalVotingPercent()+"\n");
+		
 		for (int i = 0; i < citizenBallot.size(); i++) {
-			citizenBallot.get(i).showResults();
+			str.append(citizenBallot.get(i).showResults());
 		}
 		for (int i = 0; i < sickCitizenBallot.size(); i++) {
-			sickCitizenBallot.get(i).showResults();
+			str.append(sickCitizenBallot.get(i).showResults());
 		}
 		for (int i = 0; i < soldierBallot.size(); i++) {
-			soldierBallot.get(i).showResults();
+			str.append(soldierBallot.get(i).showResults());
 
 		}
 		for (int i = 0; i < sickSoldierBallot.size(); i++) {
-			sickSoldierBallot.get(i).showResults();
+			str.append(sickSoldierBallot.get(i).showResults());
 		}
 		for (int i = 0; i < candidateBallot.size(); i++) {
-			candidateBallot.get(i).showResults();
+			str.append(candidateBallot.get(i).showResults());
 		}
 		for (int i = 0; i < sickCandidateBallot.size(); i++) {
-			sickCandidateBallot.get(i).showResults();
+			str.append(sickCandidateBallot.get(i).showResults());
 		}
 		setNumberOfVotersPerParty();
-		System.out.println("The number of votes that each party got is: ");
-		for (int i = 0; i < runningParties.size(); i++) {
-			System.out.println("The party: " + runningParties.get(i).getName() + " got "
-					+ runningParties.get(i).getNumberOfVoters() + " votes.");
-		}
+		str.append("The number of votes that each party got is: \n");
 		System.out.println();
+		for (int i = 0; i < runningParties.size(); i++) {
+			str.append("The party: " + runningParties.get(i).getName() + " got "
+					+ runningParties.get(i).getNumberOfVoters() + " votes.\n");
+		}
+		return str.toString();
+	}
+	
+	public Vector<Citizen> getCitizensVoters(){
+		return this.citizensVoters;
+	}
+	
+	public boolean nextVoter() {
+		if(voterNumber<allVoters.size()) {
+			currentVoter=allVoters.get(voterNumber);
+			voterNumber++;
+			return true;
+		}
+		return false;
+	}
+
+	public String getVoterName() {
+		return currentVoter.getName();
+	}
+	
+	public String getVoterID() {
+		return ""+currentVoter.getID();
+	}
+
+	public void createVoters() {
+		for (int i = 0; i < citizensVoters.size(); i++) {
+			allVoters.add(citizensVoters.get(i));
+		}
+		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
+			allVoters.add(SoldiersVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
+			allVoters.add(SickSoldiersVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
+			allVoters.add(candidatesVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
+			allVoters.add(sickCandidatesVoters.getObjectAtIndex(i));
+		}
+		for (int i = 0; i < SickCitizensVoters.size(); i++) {
+			allVoters.add(SickCitizensVoters.get(i));
+		}
 	}
 
 }
