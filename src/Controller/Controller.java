@@ -147,7 +147,7 @@ public class Controller {
 			}
 		};
 		view.addEventToShowAllParties(showAllPartiesPressed);
-		
+
 		EventHandler<ActionEvent> nextCitizenPressed = new EventHandler<ActionEvent>() {
 
 			@Override
@@ -160,8 +160,8 @@ public class Controller {
 			}
 		};
 		view.addEventToNextCitizen(nextCitizenPressed);
-		
-		
+
+
 		EventHandler<ActionEvent> votePressed = new EventHandler<ActionEvent>() {
 
 			@Override
@@ -175,7 +175,7 @@ public class Controller {
 			}
 		};
 		view.addEventToVote(votePressed);
-		
+
 		EventHandler<ActionEvent> showResultsPressed = new EventHandler<ActionEvent>() {
 
 			@Override
@@ -183,6 +183,7 @@ public class Controller {
 				view.clearview();
 				try {
 					if(view.getVotingIsDone()) {
+					model.setInfoForView(view.getXYChart());
 					view.showResults(model);
 					}
 				} catch (IDOutOfRange e) {
@@ -192,11 +193,11 @@ public class Controller {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		};
 		view.addEventToShowResults(showResultsPressed);
-		
+
 		EventHandler<ActionEvent> exitPressed = new EventHandler<ActionEvent>() {
 
 			@Override
@@ -206,5 +207,14 @@ public class Controller {
 			}
 		};
 		view.addEventToExit(exitPressed);
+
+		EventHandler<ActionEvent> showViewPressed = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				view.showView();
+			}
+		};
+		view.addEventToShowView(showViewPressed);
 	}
 }
