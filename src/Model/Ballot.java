@@ -24,19 +24,9 @@ public class Ballot<T extends Citizen> {
 			}
 		}
 	}
-
-	public Ballot(Scanner scan, Vector<Party> parties) {
-		System.out.println("Please enter Ballot address");
-		scan.nextLine();
-		this.address = scan.nextLine();
-		this.votersList = new Vector<>();
-		this.results = new Vector<>();
-		for (int i = 0; i < parties.size(); i++) {
-			if (parties.get(i) != null) {
-				results.add(new BallotsResults(parties.get(i)));
-			}
-		}
-		this.id = ID++;
+	
+	public void addPartyToBallot(Party party) {
+		results.add(new BallotsResults(party));
 	}
 
 	public Vector<T> getvotersList() {
@@ -71,6 +61,8 @@ public class Ballot<T extends Citizen> {
 		votersList.add(voter); 
 		potentialVoters++;
 	}
+	
+	
 
 	public boolean vote(String selectedParty, T voter) {
 		for (int i = 0; i < results.size(); i++) {

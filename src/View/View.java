@@ -221,12 +221,10 @@ public class View {
 		HBox.setMargin(txtField, new Insets(20, 40, 20, 10));
 		HBox.setMargin(add, new Insets(20, 40, 20, 300));
 
-
-		Scene scene = new Scene(bp, 1250, 950);
+		Scene scene = new Scene(bp, 1280, 960);
 		primaryStage.setScene(scene);
 		primaryStage.setFullScreen(false);
 		primaryStage.show();
-
 	}
 
 	public void addABallot() {
@@ -340,6 +338,14 @@ public class View {
 		parametersPane.setVisible(true);
 		nextCitizen.setVisible(true);
 		nextCitizen.setDisable(true);
+		addABallot.setDisable(true);
+		addACitizen.setDisable(true);
+		addACandidate.setDisable(true);
+		addAParty.setDisable(true);
+		showAllBallots.setDisable(true);
+		showAllCitizens.setDisable(true);
+		showAllParties.setDisable(true);
+		showResults.setDisable(true);
 	}
 
 	public void showResults(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
@@ -366,17 +372,15 @@ public class View {
 			String kind = getComboKind();
 			String ballotAdress = txtField.getText();
 			if (txtField.getText().isEmpty()) {
-				// add.setStyle("-fx-background-color: #f54331; ");
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Please enter Ballot address");
 				msg.show();
 			} else {
-				// add.setStyle("-fx-background-color: #00b120; ");
 				theModel.addABallotUpdate(kind, ballotAdress);
 				Alert msg = new Alert(AlertType.CONFIRMATION);
 				msg.setContentText("Ballot added!");
 				msg.show();
-				clearview(); // needs to be updated!
+				clearview(); 
 			}
 		} else if (function == "addACitizen") {
 			String kind = getComboKind();
@@ -389,7 +393,8 @@ public class View {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must fill all the details!");
 				msg.show();
-			} else if ((kind == "Sick Citizen" && txtField4.getText().isEmpty())|| (kind == "Sick Soldier" && txtField4.getText().isEmpty())) {
+			} else if ((kind == "Sick Citizen" && txtField4.getText().isEmpty())
+					|| (kind == "Sick Soldier" && txtField4.getText().isEmpty())) {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must enter number of sick days!");
 				msg.show();
@@ -407,9 +412,8 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Not possible to add");
+					msg.setContentText("Not possible to add-the person already exists");
 					msg.show();
-					clearview();
 				}
 			}
 		} else if (function == "addAParty") {
@@ -454,9 +458,8 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Not possible to add");
+					msg.setContentText("Not possible to add-the person already exists");
 					msg.show();
-					clearview();
 				}
 			}
 		} else if (function == "showAllBallots") {
@@ -688,6 +691,9 @@ public class View {
 		msg.show();
 		clearview();
 		showResults.setDisable(false);
+		showAllBallots.setDisable(false);
+		showAllCitizens.setDisable(false);
+		showAllParties.setDisable(false);
 		this.vote.setDisable(true);
 		this.addABallot.setDisable(true);
 		this.addACitizen.setDisable(true);
@@ -711,6 +717,22 @@ public class View {
 
 	public XYChart.Series getXYChart() {
 		return results;
+	}
+
+	public void IDOutOfRangeMassage() {
+		Alert msg = new Alert(AlertType.ERROR);
+		msg.setHeaderText("The ID you typed is invalid");
+		msg.setContentText("ID Out Of Range Massage");
+		msg.show();
+	
+	}
+
+	public void ageOutOfRangeMassage() {
+		Alert msg = new Alert(AlertType.ERROR);
+		msg.setHeaderText("The age you typed is invalid");
+		msg.setContentText("Age out of range");
+		msg.show();
+		
 	}
 
 }

@@ -53,8 +53,7 @@ public class ElectionRound implements Menuable {
 		voterNumber = 0;
 	}
 
-	public boolean setCitizens(Set<Citizen> citizens) { // boolean since it says
-														// so in the task
+	public boolean setCitizens(Set<Citizen> citizens) { 										
 		this.citizens = citizens;
 		return true;
 	}
@@ -233,12 +232,7 @@ public class ElectionRound implements Menuable {
 	}
 
 	public <T extends Citizen> boolean setBallotAndASingleCitizen(T temp) throws ageOutOfRange {
-		try {
-			checkVotingException(temp);
-			matchBallotAndCitizen(temp);
-		} catch (ageOutOfRange notBigEnough) {
-			return false;
-		}
+		matchBallotAndCitizen(temp);
 		return true;
 	}
 
@@ -375,7 +369,6 @@ public class ElectionRound implements Menuable {
 		boolean isAbleToVote = false;
 		switch (kind) {
 		case "Sick Citizen":
-			try {
 				checkID(ID);
 				SickCitizen temp = new SickCitizen(name, ID, year, sickDays);
 				notTheSamePerson = sickCitizens.add(temp);
@@ -386,13 +379,10 @@ public class ElectionRound implements Menuable {
 				if (isAbleToVote) {
 					SickCitizensVoters.add(temp);
 					this.sickCitizenBallot.get(0).addVoter(temp);
+					numberOfvoters++;
 				}
-			} catch (IDOutOfRange wrongID) {
-				return false;
-			}
 			break;
 		case "Soldier":
-			try {
 				checkID(ID);
 				checkAgeSoldier(year);
 				Soldier temp2 = new Soldier(name, ID, year, carryWeapon);
@@ -402,14 +392,9 @@ public class ElectionRound implements Menuable {
 				}
 				isAbleToVote = setBallotAndASingleCitizen(temp2);
 				this.soldierBallot.get(0).addVoter(temp2);
-			}catch (IDOutOfRange wrongID) {
-				return false;
-			}catch (ageOutOfRange worngAge) {
-				return false;
-			}
+				numberOfvoters++;
 			break;
 		case "Citizen":
-			try {
 				checkID(ID);
 				Citizen temp3 = new Citizen(name, ID, year);
 				notTheSamePerson = citizens.add(temp3);
@@ -420,13 +405,10 @@ public class ElectionRound implements Menuable {
 				if (isAbleToVote) {
 					citizensVoters.add(temp3);
 					citizenBallot.get(0).addVoter(temp3);
+					numberOfvoters++;
 				}
-			}catch (IDOutOfRange wrongID) {
-				return false;
-			}
 			break;
 		case "Sick Soldier":
-			try {
 				checkID(ID);
 				checkAgeSoldier(year);
 				SickSoldier temp4 = new SickSoldier(name, ID, year, carryWeapon, sickDays);
@@ -436,11 +418,7 @@ public class ElectionRound implements Menuable {
 				}
 				isAbleToVote = setBallotAndASingleCitizen(temp4);
 				sickSoldierBallot.get(0).addVoter(temp4);
-			}catch (IDOutOfRange wrongID) {
-				return false;
-			}catch (ageOutOfRange worngAge) {
-				return false;
-			}
+				numberOfvoters++;
 			break;
 		}
 		return true;
@@ -448,58 +426,64 @@ public class ElectionRound implements Menuable {
 
 	public void addAParty(String partyName, String partyFaction, String partyDate) {
 		runningParties.add(new Party(partyName, partyFaction, partyDate));
+		for (int i = 0; i < citizenBallot.size(); i++) {
+			citizenBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
+		for (int i = 0; i < sickCitizenBallot.size(); i++) {
+			sickCitizenBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
+		for (int i = 0; i < soldierBallot.size(); i++) {
+			soldierBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
+		for (int i = 0; i < sickSoldierBallot.size(); i++) {
+			sickSoldierBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
+		for (int i = 0; i <candidateBallot.size(); i++) {
+			candidateBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
+		for (int i = 0; i < sickCandidateBallot.size(); i++) {
+			sickCandidateBallot.get(i).addPartyToBallot(runningParties.lastElement());
+		}
 	}
 
 	public boolean addACandidateToParty(String kind, String name, int ID, int year, int sickDays, String party)throws ageOutOfRange, IDOutOfRange {
 		boolean notTheSamePerson;
 		switch(kind) {
 		case "Candidate":
-			try {
-				checkID(ID);
-				checkAgeCandidate(year);
-				Candidate temp = null;
-				for (int i = 0; i < runningParties.size(); i++) {
-					if (party.equals(runningParties.get(i).getName())) {
-						temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
-						break;
-					}
+			checkID(ID);
+			checkAgeCandidate(year);
+			Candidate temp = null;
+			for (int i = 0; i < runningParties.size(); i++) {
+				if (party.equals(runningParties.get(i).getName())) {
+					temp = (Candidate) runningParties.get(i).addCandidate(name, ID, year);
+					break;
 				}
-				if (temp != null) {
-					matchBallotAndCitizen(temp);
-					notTheSamePerson = candidatesVoters.add(temp);
-					if (!notTheSamePerson) {
-						return false;
-					}
-				}
-			}catch (IDOutOfRange wrongID) {
-				return false;
-			}catch (ageOutOfRange worngAge) {
+			}
+			matchBallotAndCitizen(temp);
+			notTheSamePerson = candidatesVoters.add(temp);
+			if (!notTheSamePerson) {
 				return false;
 			}
+			this.candidateBallot.get(0).addVoter(temp);
+			numberOfvoters++;
 			break;
 		case "Sick Candidate":
-			try {
-				checkID(ID);
-				checkAgeCandidate(year);
-				SickCandidate temp2 = null;
-				for (int i = 0; i < runningParties.size(); i++) {
-					if (party.equals(runningParties.get(i).getName())) {
-						temp2 = (SickCandidate) runningParties.get(i).addSickCandidate(name, ID, year, sickDays);
-					}
+			checkID(ID);
+			checkAgeCandidate(year);
+			SickCandidate temp2 = null;
+			for (int i = 0; i < runningParties.size(); i++) {
+				if (party.equals(runningParties.get(i).getName())) {
+					temp2 = (SickCandidate) runningParties.get(i).addSickCandidate(name, ID, year, sickDays);
 				}
-				if (temp2 != null) {
-					matchBallotAndCitizen(temp2);
-					notTheSamePerson = sickCandidatesVoters.add(temp2);
-					if (!notTheSamePerson) {
-						return false;
-					}
-				}
-			}catch (IDOutOfRange wrongID) {
-				return false;
-			}catch (ageOutOfRange worngAge) {
+			}
+			matchBallotAndCitizen(temp2);
+			notTheSamePerson = sickCandidatesVoters.add(temp2);
+			if (!notTheSamePerson) {
 				return false;
 			}
-			break;	
+			numberOfvoters++;
+			this.sickCandidateBallot.get(0).addVoter(temp2);
+			break;
 		}
 		return true;
 	}

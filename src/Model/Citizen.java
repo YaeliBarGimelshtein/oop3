@@ -31,13 +31,8 @@ public class Citizen {
 
 	
 	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { // boolean since it says so un the
-		try {
-			checkAge();
 			this.ballot = (Ballot<Citizen>) ballot;
 			return true;
-		} catch (ageOutOfRange notBigEnough) {
-			return false;
-		}
 	}
 	
 	protected void checkAge() throws ageOutOfRange {
