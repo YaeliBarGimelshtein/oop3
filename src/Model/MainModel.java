@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Vector;
 import View.View;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
 public class MainModel {
@@ -134,9 +135,7 @@ public class MainModel {
 	}
 
 	public void updateParties(View theView) {
-
 		theView.setPartiesToComboBox(firstRound.getRunningParties());
-
 	}
 
 	public String getVoterName() {
@@ -156,19 +155,19 @@ public class MainModel {
 	}
 
 	public Vector<Integer> getVotersPerParty() {
-
 		return firstRound.getVotersPerParty();
 	}
 
 	public Vector<String> getNamePerParty() {
-
 		return firstRound.getNamePerParty();
 	}
 
-	public void setInfoForView(Series xyChart) {
-
+	public void setInfoForView(XYChart.Series xyChart) {
 		firstRound.setInfoForView(xyChart);
+	}
 
+	public void setNumberOfVotersPerParty() {
+		firstRound.setNumberOfVotersPerParty();
 	}
 
 

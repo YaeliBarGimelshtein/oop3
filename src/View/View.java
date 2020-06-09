@@ -78,10 +78,11 @@ public class View {
 	private Text txtFieldtxt3;
 	private Text txtFieldtxt4;
 	private Text txtCheckBox;
-	private Label output;
+	private String resultsString;
+	//private Label output;
 
 	private BarChart<String,Number> barChart;
-	private XYChart.Series resualts;
+	private XYChart.Series results;
 
 	private String function;
 	private boolean voteIsDone;
@@ -138,13 +139,13 @@ public class View {
 
 		check = new CheckBox();
 		// output:
-		output = new Label();
-		output.setLayoutX(10);
-		output.setLayoutY(400);
-		output.setFont(Font.font("Verdana", 15));
-		output.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-		output.setStyle("-fx-border-color: black;");
-		output.setWrapText(true);
+//		output = new Label();
+//		output.setLayoutX(0);
+//		output.setLayoutY(300);
+//		output.setFont(Font.font("Verdana", 10));
+//		output.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+//		output.setStyle("-fx-border-color: black;");
+//		output.setWrapText(true);
 
 		txtField = new TextField();
 		txtField.setPrefSize(120, 40);
@@ -156,16 +157,16 @@ public class View {
 		txtField4.setPrefSize(120, 40);
 
 		txtFieldtxt = new Text();
-		txtFieldtxt.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 		txtFieldtxt2 = new Text();
-		txtFieldtxt2.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 		txtFieldtxt3 = new Text();
-		txtFieldtxt3.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt3.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 		txtFieldtxt4 = new Text();
-		txtFieldtxt4.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtFieldtxt4.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		txtCheckBox = new Text();
-		txtCheckBox.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+		txtCheckBox.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		// layout:
 		leftMenu = new VBox();
@@ -177,11 +178,12 @@ public class View {
 		textFields = new VBox();
 		bp = new BorderPane();
 		parametersPane = new Pane();
+		
 		parametersBox = new HBox();
+		parametersBox.setAlignment(Pos.TOP_CENTER);
 
-		resualts = new XYChart.Series();
-		resualts.setName("Election Resualts");
-		XYChart.Series resualts = new XYChart.Series();
+		results = new XYChart.Series();
+		results.setName("Election Resualts");
 
 
 		createBarChart();
@@ -194,18 +196,18 @@ public class View {
 		txt3.getChildren().addAll(txtFieldtxt3, txtField3);
 		txt4.getChildren().addAll(txtFieldtxt4, txtField4);
 
-		barChart.setLayoutX(1300);
-		barChart.setLayoutY(500);
+		barChart.setLayoutX(500);
+		barChart.setLayoutY(250);
 
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
 
 		textFields.getChildren().addAll(txt1, txt2, txt3, txt4, HcheckBox);
+		
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
 				showAllCitizens, showAllParties, vote, showResults, exit, showView);
 
 		parametersBox.getChildren().addAll(kind, party, textFields, add, nextCitizen); // yakir
-
-		parametersPane.getChildren().addAll(parametersBox, output, barChart);
+		parametersPane.getChildren().addAll(parametersBox,barChart);
 
 		parametersPane.setVisible(false);
 
@@ -219,12 +221,10 @@ public class View {
 		HBox.setMargin(txtField, new Insets(20, 40, 20, 10));
 		HBox.setMargin(add, new Insets(20, 40, 20, 300));
 
-
-		Scene scene = new Scene(bp, 1250, 950);
+		Scene scene = new Scene(bp, 1280, 960);
 		primaryStage.setScene(scene);
 		primaryStage.setFullScreen(false);
 		primaryStage.show();
-
 	}
 
 	public void addABallot() {
@@ -307,7 +307,7 @@ public class View {
 	public void showAllBallots(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllBallots";
 		parametersPane.setVisible(true);
-		output.setVisible(true);
+		//output.setVisible(true);
 		updateModel(theModel);
 
 	}
@@ -315,14 +315,14 @@ public class View {
 	public void showAllCitizens(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllCitizens";
 		parametersPane.setVisible(true);
-		output.setVisible(true);
+		//output.setVisible(true);
 		updateModel(theModel);
 
 	}
 
 	public void showAllParties(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllParties";
-		output.setVisible(true);
+		//output.setVisible(true);
 		parametersPane.setVisible(true);
 		updateModel(theModel);
 	}
@@ -337,13 +337,23 @@ public class View {
 		txt2.setVisible(true);
 		parametersPane.setVisible(true);
 		nextCitizen.setVisible(true);
+		nextCitizen.setDisable(true);
+		addABallot.setDisable(true);
+		addACitizen.setDisable(true);
+		addACandidate.setDisable(true);
+		addAParty.setDisable(true);
+		showAllBallots.setDisable(true);
+		showAllCitizens.setDisable(true);
+		showAllParties.setDisable(true);
+		showResults.setDisable(true);
 	}
 
 	public void showResults(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showResults";
 		parametersPane.setVisible(true);
 		barChart.setVisible(true);
-		output.setVisible(true);
+		//output.setVisible(true);
+		vote.setDisable(true);
 		updateModel(theModel);
 	}
 
@@ -362,17 +372,15 @@ public class View {
 			String kind = getComboKind();
 			String ballotAdress = txtField.getText();
 			if (txtField.getText().isEmpty()) {
-				// add.setStyle("-fx-background-color: #f54331; ");
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Please enter Ballot address");
 				msg.show();
 			} else {
-				// add.setStyle("-fx-background-color: #00b120; ");
 				theModel.addABallotUpdate(kind, ballotAdress);
 				Alert msg = new Alert(AlertType.CONFIRMATION);
 				msg.setContentText("Ballot added!");
 				msg.show();
-				clearview(); // needs to be updated!
+				clearview(); 
 			}
 		} else if (function == "addACitizen") {
 			String kind = getComboKind();
@@ -380,23 +388,22 @@ public class View {
 			int ID;
 			int year;
 			boolean carryWeapon = check.isSelected();
-			int sickDays;
-			if (txtField.getText().isEmpty() || txtField2.getText().isEmpty() || txtField3.getText().isEmpty()
-					|| kind == "Sick Citizen" || kind == "Sick Soldier") {
+			int sickDays = 0;
+			if (txtField.getText().isEmpty() || txtField2.getText().isEmpty() || txtField3.getText().isEmpty()) {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must fill all the details!");
 				msg.show();
-			} else if (kind == "Sick Citizen" || kind == "Sick Soldier") {
-				if (txtField4.getText().isEmpty()) {
-					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Must enter number of sick days!");
-					msg.show();
-				}
-
+			} else if ((kind == "Sick Citizen" && txtField4.getText().isEmpty())
+					|| (kind == "Sick Soldier" && txtField4.getText().isEmpty())) {
+				Alert msg = new Alert(AlertType.ERROR);
+				msg.setContentText("Must enter number of sick days!");
+				msg.show();
 			} else {
 				ID = Integer.parseInt(txtField2.getText());
 				year = Integer.parseInt(txtField3.getText());
-				sickDays = Integer.parseInt(txtField4.getText());
+				if (kind == "Sick Citizen" || kind == "Sick Soldier") {
+					sickDays = Integer.parseInt(txtField4.getText());
+				}
 				boolean added = theModel.addACitizenUpdate(kind, name, ID, year, carryWeapon, sickDays);
 				if (added) {
 					Alert msg = new Alert(AlertType.CONFIRMATION);
@@ -405,9 +412,8 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Citizen already in the system!");
+					msg.setContentText("Not possible to add-the person already exists");
 					msg.show();
-					clearview();
 				}
 			}
 		} else if (function == "addAParty") {
@@ -435,13 +441,10 @@ public class View {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("Must fill all the details!");
 				msg.show();
-			} else if (kind == "Sick Candidate") {
-				if (txtField4.getText().isEmpty()) {
+			} else if (kind == "Sick Candidate" && txtField4.getText().isEmpty() ) {
 					Alert msg = new Alert(AlertType.ERROR);
 					msg.setContentText("Must enter number of sick days!");
 					msg.show();
-				}
-
 			} else {
 				ID = Integer.parseInt(txtField2.getText());
 				year = Integer.parseInt(txtField3.getText());
@@ -455,25 +458,41 @@ public class View {
 					clearview();
 				} else {
 					Alert msg = new Alert(AlertType.ERROR);
-					msg.setContentText("Candidate already in the system!");
+					msg.setContentText("Not possible to add-the person already exists");
 					msg.show();
-					clearview();
 				}
 			}
-
 		} else if (function == "showAllBallots") {
-			output.setText(theModel.showAllBallotsUpdate());
+			Alert msg = new Alert(AlertType.INFORMATION);
+			msg.setContentText(theModel.showAllBallotsUpdate());
+			msg.show();
+			clearview();
+			//output.setText();
 		} else if (function == "showAllCitizens") {
-			output.setText(theModel.showAllCitizensUpdate());
+			Alert msg = new Alert(AlertType.INFORMATION);
+			msg.setContentText(theModel.showAllCitizensUpdate());
+			msg.show();
+			clearview();
+			//output.setText(theModel.showAllCitizensUpdate());
 		} else if (function == "showAllParties") {
-			output.setText(theModel.showAllPartiesUpdate());
+			//output.setText(theModel.showAllPartiesUpdate());
+			Alert msg = new Alert(AlertType.INFORMATION);
+			msg.setContentText(theModel.showAllPartiesUpdate());
+			msg.show();
+			clearview();
 		} else if (function == "vote") {
 			Boolean isVoting = false;
 			if (getComboKind() == "") {
 				Alert msg = new Alert(AlertType.ERROR);
 				msg.setContentText("must choose whether to vote or not!");
 				msg.show();
+				nextCitizen.setDisable(true);
+				kind.setDisable(false);
+				party.setDisable(false);
 			} else {
+				nextCitizen.setDisable(false);
+				kind.setDisable(true);
+				party.setDisable(true);
 				if (getComboKind() == "Yes") {
 					isVoting = true;
 				}
@@ -487,21 +506,13 @@ public class View {
 			}
 
 		} else if (function == "showResults") {
-			output.setText(theModel.showResultsUpdate());
-			//setValuesForBar(theModel.getNamePerParty(), theModel.getVotersPerParty());
+			Alert msg = new Alert(AlertType.INFORMATION);
+			msg.setContentText(resultsString);
+			msg.show();
 			barChart.setVisible(true);
-			barChart.getData().add(resualts);
-
 		}
-
 	}
 
-//	private void setValuesForBar(Vector<String> names, Vector<Integer> voters) {
-//		for (int i = 0; i < names.size(); i++) {
-//			resualts.getData().add(new XYChart.Data(names.get(i), voters.get(i)));
-//		}
-//
-//	}
 
 	public String getComboKind() {
 		return kind.getValue();
@@ -511,8 +522,8 @@ public class View {
 		barChart.setVisible(false);
 		kind.getItems().clear();
 		party.getItems().clear();
-		output.setText("");
-		output.setVisible(false);
+		//output.setText("");
+		//output.setVisible(false);
 		check.setSelected(false);
 		txt1.setVisible(false);
 		txt2.setVisible(false);
@@ -527,6 +538,8 @@ public class View {
 		txtField2.setDisable(false);
 		txtField.setText("");
 		txtField2.setText("");
+		txtField3.setText("");
+		txtField4.setText("");
 	}
 
 	public void updateComboBox() {
@@ -550,7 +563,7 @@ public class View {
 		} else if (function == "vote") {
 			if (getComboKind() == "Yes") {
 				party.setVisible(true);
-				party.setValue("Halikud");
+				party.setValue("HaLikud");
 			} else {
 				party.setVisible(false);
 			}
@@ -627,8 +640,8 @@ public class View {
 		parametersPane.setVisible(true);
 		kind.getItems().clear();
 		party.getItems().clear();
-		output.setText("Label");
-		output.setVisible(true);
+		//output.setText("Label");
+		//output.setVisible(true);
 		check.setSelected(true);
 		txt1.setVisible(true);
 		txt2.setVisible(true);
@@ -665,10 +678,12 @@ public class View {
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("ID");
 		add.setDisable(false);
-
+		nextCitizen.setDisable(true);
+		kind.setDisable(false);
+		party.setDisable(false);
 	}
 
-	public void endVote() {
+	public void endVote(MainModel model) {
 		voteIsDone = true;
 		Alert msg = new Alert(AlertType.CONFIRMATION);
 		msg.setHeaderText("Thank you for youre vote!");
@@ -676,6 +691,19 @@ public class View {
 		msg.show();
 		clearview();
 		showResults.setDisable(false);
+		showAllBallots.setDisable(false);
+		showAllCitizens.setDisable(false);
+		showAllParties.setDisable(false);
+		this.vote.setDisable(true);
+		this.addABallot.setDisable(true);
+		this.addACitizen.setDisable(true);
+		this.addAParty.setDisable(true);
+		this.addACandidate.setDisable(true);
+		resultsString=model.showResultsUpdate();
+		model.setNumberOfVotersPerParty();
+		model.setInfoForView(results);
+		barChart.getData().add(results);
+		
 	}
 
 	public boolean getVotingIsDone() {
@@ -688,8 +716,23 @@ public class View {
 	}
 
 	public XYChart.Series getXYChart() {
+		return results;
+	}
 
-		return resualts;
+	public void IDOutOfRangeMassage() {
+		Alert msg = new Alert(AlertType.ERROR);
+		msg.setHeaderText("The ID you typed is invalid");
+		msg.setContentText("ID Out Of Range Massage");
+		msg.show();
+	
+	}
+
+	public void ageOutOfRangeMassage() {
+		Alert msg = new Alert(AlertType.ERROR);
+		msg.setHeaderText("The age you typed is invalid");
+		msg.setContentText("Age out of range");
+		msg.show();
+		
 	}
 
 }

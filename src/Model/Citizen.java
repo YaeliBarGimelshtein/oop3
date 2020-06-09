@@ -9,25 +9,12 @@ public class Citizen {
 	protected boolean isVoting;
 	protected boolean idCorrect;
 
-	public Citizen(String name, int ID, int year) throws IDOutOfRange  {
-		try {
+	public Citizen(String name, int ID, int year) {
 		this.name = name;
-		setID(ID);
+		this.ID=ID;
 		setYear(year);
 		setAge();
-		}catch(IDOutOfRange wrongID){ //how to catch in gui?
-			return;
-		}	
 	}
-
-
-	public Citizen(Citizen citizen) {
-		this.name = citizen.name;
-		this.ID=citizen.ID;	
-		setYear(citizen.getYear());
-		setAge();
-	}
-		
 
 	protected boolean setAge() { 
 		this.age = ElectionRound.ELECTION_YEAR - this.birthYear;
@@ -44,13 +31,8 @@ public class Citizen {
 
 	
 	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { // boolean since it says so un the
-		try {
-			checkAge();
 			this.ballot = (Ballot<Citizen>) ballot;
 			return true;
-		} catch (ageOutOfRange notBigEnough) {
-			return false;
-		}
 	}
 	
 	protected void checkAge() throws ageOutOfRange {
@@ -78,14 +60,14 @@ public class Citizen {
 		}
 	}
 
-	private boolean setID(int iD)throws IDOutOfRange { 
-		if(iD<100000000||iD>999999999) {
-			throw new IDOutOfRange("Illegal ID");
-		}else {
-		this.ID=iD;
-		return true;
-		}
-	}
+//	private boolean setID(int iD)throws IDOutOfRange { 
+//		if(iD<100000000||iD>999999999) {
+//			throw new IDOutOfRange("Illegal ID");
+//		}else {
+//		this.ID=iD;
+//		return true;
+//		}
+//	}
 
 	public String getName() {
 		return this.name;

@@ -5,13 +5,9 @@ public class Soldier extends Citizen {
 	private Ballot<Soldier> ballot;
 
 
-	public Soldier(String name, int ID, int year,boolean weapon) throws IDOutOfRange,ageOutOfRange  {
+	public Soldier(String name, int ID, int year,boolean weapon)  {
 		super(name,ID,year);
-		try {
-			checkAge();
-		} catch (ageOutOfRange e) { //how to catch in gui
-			
-		}
+		setAge();
 		this.carryWeapon=weapon;
 	}
 
@@ -21,7 +17,7 @@ public class Soldier extends Citizen {
 	}
 	
 	public String toString() {
-		String str= super.toString()+"he is also a Soldier is carry a weapon "+this.carryWeapon;
+		String str= super.toString()+". He is also a Soldier. Is carring a weapon= "+this.carryWeapon;
 		if (ballot != null) {
 		str = str + ", votes at ballot number " + ballot.getId() + ". ";
 		}
@@ -33,11 +29,13 @@ public class Soldier extends Citizen {
 		Soldier other= (Soldier) obj;
 		return (carryWeapon==other.carryWeapon && super.equals(other));
 	}
-	protected void checkAge() throws ageOutOfRange {
-		if (this.getAge() < 18) {
-			throw new ageOutOfRange("Not legal to vote yet");
-		}
-	}
+	
+//	protected void checkAge() throws ageOutOfRange {
+//		if (this.getAge() < 18) {
+//			throw new ageOutOfRange("Not legal to vote yet");
+//		}
+//	}
+	
 	public void vote(String selectedParty) {
 		this.ballot.vote(selectedParty, this);
 	}

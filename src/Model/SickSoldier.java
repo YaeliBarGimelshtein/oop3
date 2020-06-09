@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class SickSoldier extends Soldier implements Sickable{
 	private Ballot<SickSoldier> ballot;
 	private int numOfSickDays;

@@ -24,19 +24,9 @@ public class Ballot<T extends Citizen> {
 			}
 		}
 	}
-
-	public Ballot(Scanner scan, Vector<Party> parties) {
-		System.out.println("Please enter Ballot address");
-		scan.nextLine();
-		this.address = scan.nextLine();
-		this.votersList = new Vector<>();
-		this.results = new Vector<>();
-		for (int i = 0; i < parties.size(); i++) {
-			if (parties.get(i) != null) {
-				results.add(new BallotsResults(parties.get(i)));
-			}
-		}
-		this.id = ID++;
+	
+	public void addPartyToBallot(Party party) {
+		results.add(new BallotsResults(party));
 	}
 
 	public Vector<T> getvotersList() {
@@ -71,10 +61,12 @@ public class Ballot<T extends Citizen> {
 		votersList.add(voter); 
 		potentialVoters++;
 	}
+	
+	
 
 	public boolean vote(String selectedParty, T voter) {
 		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i).getParty().getName()==(selectedParty)) {
+			if (results.get(i).getParty().getName().equals(selectedParty)) {
 				results.get(i).addVote();
 				numberOfActualVoters++;
 				return true;
@@ -85,16 +77,10 @@ public class Ballot<T extends Citizen> {
 
 
 	public String showResults() {
-		StringBuffer str = new StringBuffer("Ballot number " + this.id + " located in " + this.address + " has "
+		String str = "Ballot number " + this.id + " located in " + this.address + " has "
 				+ this.numberOfActualVoters + " votes out of " + this.potentialVoters
-				+ " potential voters and has voting percentage of " + getVotersPercent() + "%\n");
-		str.append("And the results are: \n");
-		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i) != null) {
-				str.append(results.get(i).toString()+"\n");
-			}
-		}
-		return str.toString();
+				+ " potential voters and has voting percentage of " + getVotersPercent() + "%\n";
+		return str;
 	}
 
 	public String toString() {
