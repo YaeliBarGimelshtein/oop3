@@ -489,46 +489,46 @@ public class ElectionRound implements Menuable {
 	}
 
 	public String showAllBallots() {
-		StringBuffer str = new StringBuffer("Here are all the ballots in this election:\n");
+		StringBuffer str = new StringBuffer("Here are all the ballots in this election:\n\n");
 		if (citizenBallot.size() > 0) {
 			str.append("Citizen's ballots:\n");
 			for (int i = 0; i < citizenBallot.size(); i++) {
-				str.append(citizenBallot.get(i).toString() + "\n");
+				str.append(citizenBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
 		if (sickCitizenBallot.size() > 0) {
 			str.append("Sick Citizens Ballots: \n");
 			for (int i = 0; i < sickCitizenBallot.size(); i++) {
-				str.append(sickCitizenBallot.get(i).toString() + "\n");
+				str.append(sickCitizenBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
 		if (soldierBallot.size() > 0) {
 			str.append("Soldiers Ballots: \n");
 			for (int i = 0; i < soldierBallot.size(); i++) {
-				str.append(soldierBallot.get(i).toString() + "\n");
+				str.append(soldierBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
 		if (sickSoldierBallot.size() > 0) {
 			str.append("Sick Soldiers ballots: \n");
 			for (int i = 0; i < sickSoldierBallot.size(); i++) {
-				str.append(sickSoldierBallot.get(i).toString() + "\n");
+				str.append(sickSoldierBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
 		if (candidateBallot.size() > 0) {
 			str.append("Candidates ballots: \n");
 			for (int i = 0; i < candidateBallot.size(); i++) {
-				str.append(candidateBallot.get(i).toString() + "\n");
+				str.append(candidateBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
 		if (sickCandidateBallot.size() > 0) {
 			str.append("Sick Candidates ballots: \n");
 			for (int i = 0; i < sickCandidateBallot.size(); i++) {
-				str.append(sickCandidateBallot.get(i).toString() + "\n");
+				str.append(sickCandidateBallot.get(i).toString() + "\n\n");
 			}
 		}
 		str.append("\n");
@@ -536,36 +536,36 @@ public class ElectionRound implements Menuable {
 	}
 
 	public String showAllCitizens() {
-		StringBuffer str = new StringBuffer("Here are all the citizens in this election:\n");
+		StringBuffer str = new StringBuffer("Here are all the citizens in this election:\n\n");
 
 		for (int i = 0; i < citizens.getSetLenght(); i++) {
-			str.append(citizens.getObjectAtIndex(i) + "\n");
+			str.append(citizens.getObjectAtIndex(i) + "\n\n");
 		}
 		for (int i = 0; i < sickCitizens.getSetLenght(); i++) {
-			str.append(sickCitizens.getObjectAtIndex(i) + "\n");
+			str.append(sickCitizens.getObjectAtIndex(i) + "\n\n");
 		}
 		for (int i = 0; i < SoldiersVoters.getSetLenght(); i++) {
-			str.append(SoldiersVoters.getObjectAtIndex(i) + "\n");
+			str.append(SoldiersVoters.getObjectAtIndex(i) + "\n\n");
 		}
 		for (int i = 0; i < SickSoldiersVoters.getSetLenght(); i++) {
-			str.append(SickSoldiersVoters.getObjectAtIndex(i) + "\n");
+			str.append(SickSoldiersVoters.getObjectAtIndex(i) + "\n\n");
 		}
 
 		for (int i = 0; i < candidatesVoters.getSetLenght(); i++) {
-			str.append(candidatesVoters.getObjectAtIndex(i) + "\n");
+			str.append(candidatesVoters.getObjectAtIndex(i) + "\n\n");
 		}
 
 		for (int i = 0; i < sickCandidatesVoters.getSetLenght(); i++) {
-			str.append(sickCandidatesVoters.getObjectAtIndex(i) + "\n");
+			str.append(sickCandidatesVoters.getObjectAtIndex(i) + "\n\n");
 		}
 		str.append("\n");
 		return str.toString();
 	}
 
 	public String showAllParties() {
-		StringBuffer str = new StringBuffer("Here are all the parties in this election:\n");
+		StringBuffer str = new StringBuffer("Here are all the parties in this election:\n\n");
 		for (int i = 0; i < runningParties.size(); i++) {
-			str.append(runningParties.get(i) + "\n");
+			str.append(runningParties.get(i) + "\n\n");
 		}
 		str.append("\n");
 		return str.toString();
@@ -578,27 +578,27 @@ public class ElectionRound implements Menuable {
 	public String ShowElectionResults() {
 		StringBuffer str = new StringBuffer(
 				this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of "
-						+ this.numberOfvoters + " Potential voters. The voting percent of the election round: "
-						+ calculateTotalVotingPercent() + "\n");
+						+ this.numberOfvoters + " Potential voters.\n The voting percent of the election round: "
+						+ calculateTotalVotingPercent() + "\n\n");
 
 		for (int i = 0; i < citizenBallot.size(); i++) {
-			str.append(citizenBallot.get(i).showResults());
+			str.append(citizenBallot.get(i).showResults()+ "\n\n");
 		}
 		for (int i = 0; i < sickCitizenBallot.size(); i++) {
-			str.append(sickCitizenBallot.get(i).showResults());
+			str.append(sickCitizenBallot.get(i).showResults()+ "\n\n");
 		}
 		for (int i = 0; i < soldierBallot.size(); i++) {
-			str.append(soldierBallot.get(i).showResults());
+			str.append(soldierBallot.get(i).showResults()+ "\n\n");
 
 		}
 		for (int i = 0; i < sickSoldierBallot.size(); i++) {
-			str.append(sickSoldierBallot.get(i).showResults());
+			str.append(sickSoldierBallot.get(i).showResults()+ "\n\n");
 		}
 		for (int i = 0; i < candidateBallot.size(); i++) {
-			str.append(candidateBallot.get(i).showResults());
+			str.append(candidateBallot.get(i).showResults()+ "\n\n");
 		}
 		for (int i = 0; i < sickCandidateBallot.size(); i++) {
-			str.append(sickCandidateBallot.get(i).showResults());
+			str.append(sickCandidateBallot.get(i).showResults()+ "\n\n");
 		}
 		return str.toString();
 	}

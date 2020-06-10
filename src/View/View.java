@@ -2,6 +2,7 @@ package View;
 
 import java.util.Vector;
 
+import com.sun.javafx.charts.Legend;
 import com.sun.javafx.geom.Rectangle;
 
 import Model.IDOutOfRange;
@@ -12,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -59,15 +61,21 @@ public class View {
 	private CheckBox check;
 	// leyout:
 	private VBox leftMenu;
+	private VBox comboTxt1;
+	private VBox comboTxt2;
+	private HBox comboBoxesAndTexts;
 	private BorderPane bp;
 	private Pane parametersPane;
-	private HBox parametersBox;
-	private VBox textFields;
-	private HBox txt1;
-	private HBox txt2;
-	private HBox txt3;
-	private HBox txt4;
-	private HBox HcheckBox;
+	private VBox parametersBox;
+	private HBox textFields;
+	private VBox txt1;
+	private VBox txt2;
+	private VBox txt3;
+	private VBox txt4;
+	private VBox HcheckBox;
+	private VBox txtAndCheck;
+	private VBox comboAndTexts;
+	private HBox addAndNext;
 	// output:
 	private TextField txtField;
 	private TextField txtField2;
@@ -78,8 +86,10 @@ public class View {
 	private Text txtFieldtxt3;
 	private Text txtFieldtxt4;
 	private Text txtCheckBox;
+	private Text comboBoxtxt;
+	private Text comboBoxtxt2;
 	private String resultsString;
-	//private Label output;
+	private Label output;
 
 	private BarChart<String,Number> barChart;
 	private XYChart.Series results;
@@ -91,61 +101,107 @@ public class View {
 		// coding only!!
 		showView = new Button("Show View");
 		showView.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-
+		showView.setPrefSize(140, 30);
+		//showView.setStyle("-fx-border-color: #ac5454");
+		showView.setStyle("-fx-background-color: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		showView.setTextFill(Color.WHITE);
+		//showView.setBorder("-fx-border-color: #54ac96");
+		
 		// buttons:
 		addABallot = new Button("Add Ballot");
 		addABallot.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		addABallot.setPrefSize(140, 30);
+		addABallot.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		addABallot.setTextFill(Color.WHITE);
 
 		addACitizen = new Button("Add Citizen");
 		addACitizen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		addACitizen.setPrefSize(140, 30);
+		addACitizen.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		addACitizen.setTextFill(Color.WHITE);
 
 		addACandidate = new Button("Add Candidate");
 		addACandidate.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		addACandidate.setPrefSize(140, 30);
+		addACandidate.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		addACandidate.setTextFill(Color.WHITE);
 
 		addAParty = new Button("Add Party");
 		addAParty.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		addAParty.setPrefSize(140, 30);
+		addAParty.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		addAParty.setTextFill(Color.WHITE);
 
 		showAllBallots = new Button("Show All Ballots");
 		showAllBallots.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		showAllBallots.setPrefSize(140, 30);
+		showAllBallots.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		showAllBallots.setTextFill(Color.WHITE);
 
 		showAllCitizens = new Button("Show All Cititzens");
-		showAllCitizens.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		showAllCitizens.setFont(Font.font("Verdana", FontWeight.BOLD, 11.6));
+		showAllCitizens.setPrefSize(140, 30);
+		showAllCitizens.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		showAllCitizens.setTextFill(Color.WHITE);
 
 		showAllParties = new Button("Show All Parties");
 		showAllParties.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		showAllParties.setPrefSize(140, 30);
+		showAllParties.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		showAllParties.setTextFill(Color.WHITE);
 
 		vote = new Button("vote!");
 		vote.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		vote.setPrefSize(140, 30);
+		vote.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		vote.setTextFill(Color.WHITE);
 
 		showResults = new Button("show Results");
 		showResults.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 		showResults.setDisable(true);
+		showResults.setPrefSize(140, 30);
+		showResults.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		showResults.setTextFill(Color.WHITE);
 
 		add = new Button("Add!");
 		add.setPrefSize(60, 30);
 		add.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		add.setPrefSize(140, 30);
+		add.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		add.setTextFill(Color.WHITE);
 
 		nextCitizen = new Button("Next");
 		nextCitizen.setPrefSize(60, 30);
 		nextCitizen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		nextCitizen.setPrefSize(140, 30);
+		nextCitizen.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		nextCitizen.setTextFill(Color.WHITE);
 
 		exit = new Button("Exit");
 		exit.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		exit.setPrefSize(140, 30);
+		exit.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		exit.setTextFill(Color.WHITE);
 
 		kind = new ComboBox<String>();
 		kind.setPrefSize(160, 30);
+		
 		party = new ComboBox<String>();
 		party.setPrefSize(160, 30);
 
 		check = new CheckBox();
 		// output:
-//		output = new Label();
-//		output.setLayoutX(0);
-//		output.setLayoutY(300);
-//		output.setFont(Font.font("Verdana", 10));
-//		output.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-//		output.setStyle("-fx-border-color: black;");
-//		output.setWrapText(true);
+		output = new Label();
+		output.setText("Label example");
+		output.setLayoutX(50);
+		output.setLayoutY(50);
+		output.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+		output.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		output.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		output.setTextFill(Color.WHITE);
+		output.setWrapText(true);
+		output.setMaxWidth(1000);
+		
 
 		txtField = new TextField();
 		txtField.setPrefSize(120, 40);
@@ -168,27 +224,37 @@ public class View {
 		txtCheckBox = new Text();
 		txtCheckBox.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
+		comboBoxtxt = new Text();
+		comboBoxtxt.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		comboBoxtxt2 = new Text();
+		comboBoxtxt2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+		
 		// layout:
 		leftMenu = new VBox();
-		txt1 = new HBox();
-		txt2 = new HBox();
-		txt3 = new HBox();
-		txt4 = new HBox();
-		HcheckBox = new HBox();
-		textFields = new VBox();
+		comboTxt1=new VBox();
+		comboTxt2=new VBox();
+		comboBoxesAndTexts=new HBox();
+		txt1 = new VBox();
+		txt2 = new VBox();
+		txt3 = new VBox();
+		txt4 = new VBox();
+		HcheckBox = new VBox();
+		txtAndCheck=new VBox();
+		comboAndTexts=new VBox();
+		addAndNext=new HBox();
+		textFields = new HBox();
 		bp = new BorderPane();
 		parametersPane = new Pane();
 		
-		parametersBox = new HBox();
+		parametersBox = new VBox();
 		parametersBox.setAlignment(Pos.TOP_CENTER);
 
 		results = new XYChart.Series();
 		results.setName("Election Resualts");
 
 
-		createBarChart();
-
-
+		createBarChart();		
+		
 		// Connection between all:
 		voteIsDone = false;
 		txt1.getChildren().addAll(txtFieldtxt, txtField);
@@ -196,32 +262,74 @@ public class View {
 		txt3.getChildren().addAll(txtFieldtxt3, txtField3);
 		txt4.getChildren().addAll(txtFieldtxt4, txtField4);
 
+		txt1.setMargin(txtFieldtxt, new Insets(0,0,0,40));
+		txt2.setMargin(txtFieldtxt2, new Insets(0,0,0,50));
+		txt3.setMargin(txtFieldtxt3, new Insets(0,0,0,25));
+
+		
+		txt1.setSpacing(10);
+		txt2.setSpacing(10);
+		txt3.setSpacing(10);
+		txt4.setSpacing(10);
+
 		barChart.setLayoutX(500);
 		barChart.setLayoutY(250);
 
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
+		HcheckBox.setSpacing(10);
+		HcheckBox.setMargin(check, new Insets(0,0,0,45));
+		
+		comboTxt1.getChildren().addAll(comboBoxtxt,kind);
+		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,40));
+		comboTxt1.setSpacing(10);
+		comboTxt2.getChildren().addAll(comboBoxtxt2,party);
+		comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,40));
+		comboTxt2.setSpacing(10);
 
-		textFields.getChildren().addAll(txt1, txt2, txt3, txt4, HcheckBox);
+		
+		comboBoxesAndTexts.getChildren().addAll(comboTxt1,comboTxt2);
+		comboBoxesAndTexts.setSpacing(40);
+
+		comboAndTexts.getChildren().addAll(comboBoxesAndTexts,textFields);
+		comboAndTexts.setSpacing(50);
+		
+		addAndNext.getChildren().addAll(add,nextCitizen);
+		addAndNext.setSpacing(100);
+		
+		
+		textFields.getChildren().addAll(txt1, txt2, txt3, txt4);
+		textFields.setSpacing(20);
+		
+		txtAndCheck.getChildren().addAll(textFields,HcheckBox);
+		txtAndCheck.setSpacing(20);
+		txtAndCheck.setMargin(HcheckBox, new Insets(0,0,0,215));
 		
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
 				showAllCitizens, showAllParties, vote, showResults, exit, showView);
 
-		parametersBox.getChildren().addAll(kind, party, textFields, add, nextCitizen); // yakir
-		parametersPane.getChildren().addAll(parametersBox,barChart);
+		parametersBox.getChildren().addAll(comboAndTexts,txtAndCheck,addAndNext); // yakir
+		parametersBox.setSpacing(20);
+		parametersBox.setMargin(comboAndTexts, new Insets(50,50,50,90));
+		parametersBox.setMargin(addAndNext, new Insets(50,50,50,80));
 
+
+		
+		parametersPane.getChildren().addAll(parametersBox,barChart,output);
 		parametersPane.setVisible(false);
+		barChart.setLayoutY(550);
+		barChart.setLayoutX(0);
 
 		bp.setCenter(parametersPane);
 		bp.setLeft(leftMenu);
+		
 
 		BorderPane.setMargin(leftMenu, new Insets(20, 40, 20, 20));
-		BorderPane.setMargin(parametersPane, new Insets(20, 40, 20, 20));
-		HBox.setMargin(kind, new Insets(20, 40, 20, 20));
-		HBox.setMargin(txtFieldtxt, new Insets(25, 0, 20, 20));
-		HBox.setMargin(txtField, new Insets(20, 40, 20, 10));
-		HBox.setMargin(add, new Insets(20, 40, 20, 300));
+		leftMenu.setSpacing(10);
 
+		bp.styleProperty().set("-fx-background-color: #f3eace");	
+		
 		Scene scene = new Scene(bp, 1280, 960);
+		
 		primaryStage.setScene(scene);
 		primaryStage.setFullScreen(false);
 		primaryStage.show();
@@ -234,6 +342,8 @@ public class View {
 		parametersPane.setVisible(true);
 		parametersBox.setVisible(true);
 		kind.setVisible(true);
+		comboBoxtxt.setVisible(true);
+		comboBoxtxt.setText("Ballot Kind");
 		txt1.setVisible(true);
 		kind.getItems().addAll("Sick Citizen Ballot", "Soldier Ballot", "Citizen Ballot", "Sick Soldier Ballot",
 				"Candidate Ballot", "Sick Candidate Ballot");
@@ -253,6 +363,7 @@ public class View {
 		txt1.setVisible(true);
 		txt2.setVisible(true);
 		txt3.setVisible(true);
+		comboBoxtxt.setVisible(true);
 		kind.getItems().addAll("Citizen", "Soldier", "Sick Citizen", "Sick Soldier");
 		kind.setValue("Citizen");
 		kind.setStyle("-fx-font: 12px Verdana");
@@ -261,7 +372,7 @@ public class View {
 		txtFieldtxt3.setText("Birth year");
 		txtFieldtxt4.setText("Number of sick days");
 		txtCheckBox.setText("Carry a weapon?");
-
+		comboBoxtxt.setText("Citizen Kind");
 	}
 
 	public void addAParty() {
@@ -273,12 +384,14 @@ public class View {
 		txt1.setVisible(true);
 		txt2.setVisible(true);
 		kind.setVisible(true);
+		comboBoxtxt.setVisible(true);
 		kind.getItems().addAll("Right", "Left", "Center");
 		kind.setValue("Right");
 		kind.setStyle("-fx-font: 12px Verdana");
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("Date");
-
+		comboBoxtxt.setText("Party Faction");
+		txt2.setMargin(txtFieldtxt2, new Insets(0,0,0,45));
 	}
 
 	public void addACandidate() {
@@ -292,6 +405,8 @@ public class View {
 		txt1.setVisible(true);
 		txt2.setVisible(true);
 		txt3.setVisible(true);
+		comboBoxtxt.setVisible(true);
+		comboBoxtxt2.setVisible(true);
 		kind.getItems().addAll("Candidate", "Sick Candidate");
 		kind.setValue("Candidate");
 		kind.setStyle("-fx-font: 12px Verdana");
@@ -301,13 +416,17 @@ public class View {
 		txtFieldtxt2.setText("ID");
 		txtFieldtxt3.setText("Birth year");
 		txtFieldtxt4.setText("Number of sick days");
+		comboBoxtxt.setText("Candidate Kind");
+		comboBoxtxt2.setText("Party");
+		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,25));
+		comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
 
 	}
 
 	public void showAllBallots(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllBallots";
 		parametersPane.setVisible(true);
-		//output.setVisible(true);
+		output.setVisible(true);
 		updateModel(theModel);
 
 	}
@@ -315,14 +434,14 @@ public class View {
 	public void showAllCitizens(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllCitizens";
 		parametersPane.setVisible(true);
-		//output.setVisible(true);
+		output.setVisible(true);
 		updateModel(theModel);
 
 	}
 
 	public void showAllParties(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showAllParties";
-		//output.setVisible(true);
+		output.setVisible(true);
 		parametersPane.setVisible(true);
 		updateModel(theModel);
 	}
@@ -346,13 +465,16 @@ public class View {
 		showAllCitizens.setDisable(true);
 		showAllParties.setDisable(true);
 		showResults.setDisable(true);
+		comboBoxtxt.setVisible(true);
+		comboBoxtxt.setText("Do You Want To Vote?");
+		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,5));
 	}
 
 	public void showResults(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
 		function = "showResults";
 		parametersPane.setVisible(true);
 		barChart.setVisible(true);
-		//output.setVisible(true);
+		output.setVisible(true);
 		vote.setDisable(true);
 		updateModel(theModel);
 	}
@@ -365,6 +487,7 @@ public class View {
 		yAxis.setLabel("Votes");
 		// creating the bar chart
 		barChart = new BarChart(xAxis, yAxis);
+		
 	}
 
 	public void updateModel(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
@@ -463,23 +586,23 @@ public class View {
 				}
 			}
 		} else if (function == "showAllBallots") {
-			Alert msg = new Alert(AlertType.INFORMATION);
-			msg.setContentText(theModel.showAllBallotsUpdate());
-			msg.show();
-			clearview();
-			//output.setText();
+//			Alert msg = new Alert(AlertType.INFORMATION);
+//			msg.setContentText(theModel.showAllBallotsUpdate());
+//			msg.show();
+			output.setText(theModel.showAllBallotsUpdate());
+			//clearview();
 		} else if (function == "showAllCitizens") {
-			Alert msg = new Alert(AlertType.INFORMATION);
-			msg.setContentText(theModel.showAllCitizensUpdate());
-			msg.show();
-			clearview();
-			//output.setText(theModel.showAllCitizensUpdate());
+//			Alert msg = new Alert(AlertType.INFORMATION);
+//			msg.setContentText(theModel.showAllCitizensUpdate());
+//			msg.show();
+			//clearview();
+			output.setText(theModel.showAllCitizensUpdate());
 		} else if (function == "showAllParties") {
-			//output.setText(theModel.showAllPartiesUpdate());
-			Alert msg = new Alert(AlertType.INFORMATION);
-			msg.setContentText(theModel.showAllPartiesUpdate());
-			msg.show();
-			clearview();
+			output.setText(theModel.showAllPartiesUpdate());
+//			Alert msg = new Alert(AlertType.INFORMATION);
+//			msg.setContentText(theModel.showAllPartiesUpdate());
+//			msg.show();
+			//clearview();
 		} else if (function == "vote") {
 			Boolean isVoting = false;
 			if (getComboKind() == "") {
@@ -506,9 +629,10 @@ public class View {
 			}
 
 		} else if (function == "showResults") {
-			Alert msg = new Alert(AlertType.INFORMATION);
-			msg.setContentText(resultsString);
-			msg.show();
+//			Alert msg = new Alert(AlertType.INFORMATION);
+			output.setText(resultsString);
+//			msg.setContentText(resultsString);
+//			msg.show();
 			barChart.setVisible(true);
 		}
 	}
@@ -522,8 +646,8 @@ public class View {
 		barChart.setVisible(false);
 		kind.getItems().clear();
 		party.getItems().clear();
-		//output.setText("");
-		//output.setVisible(false);
+		output.setText("");
+		output.setVisible(false);
 		check.setSelected(false);
 		txt1.setVisible(false);
 		txt2.setVisible(false);
@@ -540,6 +664,8 @@ public class View {
 		txtField2.setText("");
 		txtField3.setText("");
 		txtField4.setText("");
+		comboBoxtxt.setVisible(false);
+		comboBoxtxt2.setVisible(false);
 	}
 
 	public void updateComboBox() {
@@ -563,6 +689,9 @@ public class View {
 		} else if (function == "vote") {
 			if (getComboKind() == "Yes") {
 				party.setVisible(true);
+				comboBoxtxt2.setVisible(true);
+				comboBoxtxt2.setText("Party");
+				comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
 				party.setValue("HaLikud");
 			} else {
 				party.setVisible(false);
@@ -640,8 +769,8 @@ public class View {
 		parametersPane.setVisible(true);
 		kind.getItems().clear();
 		party.getItems().clear();
-		//output.setText("Label");
-		//output.setVisible(true);
+		output.setText("Label");
+		output.setVisible(true);
 		check.setSelected(true);
 		txt1.setVisible(true);
 		txt2.setVisible(true);
@@ -664,8 +793,11 @@ public class View {
 		txtFieldtxt4.setText("txtFieldtxt4");
 		txtCheckBox.setText("check box txt");
 		barChart.setVisible(true);
-
-
+		comboBoxtxt.setVisible(true);
+		comboBoxtxt2.setVisible(true);
+		comboBoxtxt.setText("comboBoxtxt");
+		comboBoxtxt2.setText("comboBoxtxt2");
+		txtAndCheck.setVisible(true);
 	}
 
 	public void nextCitizen(String voterName, String voterID) {
@@ -703,7 +835,18 @@ public class View {
 		model.setNumberOfVotersPerParty();
 		model.setInfoForView(results);
 		barChart.getData().add(results);
-		
+		barChart.setStyle("-fx-text-fill: #54ac96");
+		for(Node n:barChart.lookupAll(".default-color0.chart-bar")) {
+            n.setStyle("-fx-bar-fill: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+        }
+		for(Node m : barChart.getChildrenUnmodifiable()){
+			   if(m instanceof Legend){
+			      for(Legend.LegendItem legendItem : ((Legend)m).getItems()){
+			        legendItem.getSymbol().setStyle("-fx-background-color: #54ac96;");
+			      }
+			   }
+			}
+
 	}
 
 	public boolean getVotingIsDone() {
