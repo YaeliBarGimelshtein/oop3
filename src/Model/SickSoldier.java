@@ -1,22 +1,12 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
 public class SickSoldier extends Soldier implements Sickable{
 	private Ballot<SickSoldier> ballot;
 	private int numOfSickDays;
 
-	public SickSoldier(String name, int ID, int year,boolean weapon,int days) throws IDOutOfRange  {
+	public SickSoldier(String name, int ID, int year,boolean weapon,int days) throws IDOutOfRange, ageOutOfRange  {
 		super(name,ID,year,weapon);
 		numOfSickDays=days;
-	}
-	
-	public SickSoldier(Scanner scan) throws IDOutOfRange, ageOutOfRange {
-		super(scan);
-		System.out.println("please let us know how many days you are sick:");
-		numOfSickDays=scan.nextInt();
-		System.out.println("feel better!");
 	}
 	
 	public String toString() {

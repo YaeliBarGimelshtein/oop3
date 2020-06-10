@@ -1,10 +1,5 @@
 package Model;
 
-import java.util.Scanner;
-import java.util.Vector;
-
-import View.View;
-
 public class Citizen {
 	protected String name;
 	protected int ID;
@@ -14,48 +9,14 @@ public class Citizen {
 	protected boolean isVoting;
 	protected boolean idCorrect;
 
-	public Citizen(String name, int ID, int year) throws IDOutOfRange  {
-		try {
+	public Citizen(String name, int ID, int year) {
 		this.name = name;
-		setID(ID);
+		this.ID=ID;
 		setYear(year);
 		setAge();
-		}catch(IDOutOfRange wrongID){
-			throw new IDOutOfRange("Illegal ID");
-		}	
 	}
 
-	public Citizen(Scanner scan) throws IDOutOfRange {
-		try {
-			System.out.println("please enter the citizen's name:");
-			scan.nextLine();
-			this.name = scan.nextLine();
-			System.out.println("please enter the citizen's birth year:");
-			this.birthYear = scan.nextInt();
-			setAge();
-			System.out.println("please enter the citizen's ID:");
-			setID(scan.nextInt());
-			}catch(IDOutOfRange wrongID){
-				int tempId;
-				do {
-					System.out.println("Inccorect id. please enter 9 digit ID");
-					tempId= scan.nextInt();
-					idCorrect=checkId(tempId);
-				} while (!idCorrect);
-				this.ID=tempId;
-			}
-		}
-
-
-	public Citizen(Citizen citizen) {
-		this.name = citizen.name;
-		this.ID=citizen.ID;	
-		setYear(citizen.getYear());
-		setAge();
-	}
-		
-
-	protected boolean setAge() { // boolean since it says so in the task
+	protected boolean setAge() { 
 		this.age = ElectionRound.ELECTION_YEAR - this.birthYear;
 		return true;
 	}
@@ -70,13 +31,8 @@ public class Citizen {
 
 	
 	public boolean setBallot(Ballot<? extends Citizen> ballot) throws ageOutOfRange { // boolean since it says so un the
-		try {
-			checkAge();
 			this.ballot = (Ballot<Citizen>) ballot;
 			return true;
-		} catch (ageOutOfRange notBigEnough) {
-			return false;
-		}
 	}
 	
 	protected void checkAge() throws ageOutOfRange {
@@ -94,7 +50,7 @@ public class Citizen {
 	}
 
 
-	private boolean setYear(int year) { // boolean since it says so in the task
+	private boolean setYear(int year) { 
 		if (year > 0 && year < 2021) {
 			this.birthYear = year;
 			return true;
@@ -104,20 +60,14 @@ public class Citizen {
 		}
 	}
 
-	private boolean setID(int iD)throws IDOutOfRange { // boolean since it says so in the task
-		if(iD<100000000||iD>999999999) {
-			throw new IDOutOfRange("Illegal ID");
-		}else {
-		this.ID=iD;
-		return true;
-		}
-	}
-	private boolean checkId(int idTemp) {
-		if(idTemp<100000000||idTemp>999999999) {
-			return false;
-		}
-		return true;
-	}
+//	private boolean setID(int iD)throws IDOutOfRange { 
+//		if(iD<100000000||iD>999999999) {
+//			throw new IDOutOfRange("Illegal ID");
+//		}else {
+//		this.ID=iD;
+//		return true;
+//		}
+//	}
 
 	public String getName() {
 		return this.name;

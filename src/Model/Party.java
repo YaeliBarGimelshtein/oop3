@@ -1,13 +1,11 @@
 package Model;
 
-import java.util.Scanner;
 import java.util.Vector;
 
 public class Party {
 	public enum Faction {
 		Right, Left, Center;
 	}
-
 	private Faction side;
 	private String name;
 	private String date;
@@ -23,20 +21,7 @@ public class Party {
 		candidateList = new Vector<>();
 	}
 
-	public Party(Scanner scan) {
-		System.out.println("please enter the name of the party: ");
-		scan.nextLine();
-		this.name = scan.nextLine();
-		System.out.println("please enter the faction of the party (Left,Right,Center): ");
-		setFaction(scan.next());
-		System.out.println("please enter the manufacturing date of the party: ");
-		scan.nextLine();
-		this.date = scan.nextLine();
-		this.candidateList = new Vector<>();
-	}
-
-	private boolean setFaction(String faction) { // boolean since it says so in
-													// the task
+	private boolean setFaction(String faction) { 
 		this.side = Faction.valueOf(faction);
 		return true;
 	}
@@ -45,8 +30,7 @@ public class Party {
 		return this.name;
 	}
 
-	public boolean setNumberOfVoters(int number) { // boolean since it says so
-													// in the task
+	public boolean setNumberOfVoters(int number) { 
 		this.numberOfVotes = number + this.numberOfVotes;
 		return true;
 	}
@@ -62,32 +46,14 @@ public class Party {
 		placeInParty++;
 	}
 
-	public Candidate addCandidate(String name, int ID, int year) throws ageOutOfRange, IDOutOfRange {
-		try {
+	public Candidate addCandidate(String name, int ID, int year)  {
 			Candidate temp = new Candidate(name, ID, year, this);
-			candidateList.add(temp);
-			temp.setPlaceInParty(placeInParty);
-			currentCandidates++;
-			placeInParty++;
 			return temp;
-		} catch (ageOutOfRange notBigEnough) {
-			return null;
-		}
 	}
 
-	public SickCandidate addSickCandidate(String name, int ID, int year, int sickDays)
-			throws ageOutOfRange, IDOutOfRange {
-		try {
+	public SickCandidate addSickCandidate(String name, int ID, int year, int sickDays) throws ageOutOfRange, IDOutOfRange {
 			SickCandidate temp = new SickCandidate(name, ID, year, this, sickDays);
-			candidateList.add(temp);
-			temp.setPlaceInParty(placeInParty);
-			currentCandidates++;
-			placeInParty++;
 			return temp;
-		} catch (ageOutOfRange notBigEnough) {
-
-			return null;
-		}
 	}
 
 	@Override
