@@ -579,7 +579,7 @@ public class ElectionRound implements Menuable {
 		StringBuffer str = new StringBuffer(
 				this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of "
 						+ this.numberOfvoters + " Potential voters.\n The voting percent of the election round: "
-						+ calculateTotalVotingPercent() + "\n\n");
+						+ calculateTotalVotingPercent() + "%\n");
 
 		for (int i = 0; i < citizenBallot.size(); i++) {
 			str.append(citizenBallot.get(i).showResults()+ "\n\n");

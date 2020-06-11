@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -25,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
@@ -67,7 +69,7 @@ public class View {
 	private VBox comboTxt2;
 	private HBox comboBoxesAndTexts;
 	private BorderPane bp;
-	private Pane parametersPane;
+	private ScrollPane parametersPane;
 	private VBox parametersBox;
 	private HBox textFields;
 	private VBox txt1;
@@ -246,7 +248,7 @@ public class View {
 		addAndNext=new HBox();
 		textFields = new HBox();
 		bp = new BorderPane();
-		parametersPane = new Pane();
+		parametersPane = new ScrollPane();
 		
 		parametersBox = new VBox();
 		parametersBox.setAlignment(Pos.TOP_CENTER);
@@ -264,9 +266,9 @@ public class View {
 		txt3.getChildren().addAll(txtFieldtxt3, txtField3);
 		txt4.getChildren().addAll(txtFieldtxt4, txtField4);
 
-		txt1.setMargin(txtFieldtxt, new Insets(0,0,0,40));
-		txt2.setMargin(txtFieldtxt2, new Insets(0,0,0,50));
-		txt3.setMargin(txtFieldtxt3, new Insets(0,0,0,25));
+		VBox.setMargin(txtFieldtxt, new Insets(0,0,0,40));
+		VBox.setMargin(txtFieldtxt2, new Insets(0,0,0,50));
+		VBox.setMargin(txtFieldtxt3, new Insets(0,0,0,25));
 
 		
 		txt1.setSpacing(10);
@@ -279,13 +281,13 @@ public class View {
 
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
 		HcheckBox.setSpacing(10);
-		HcheckBox.setMargin(check, new Insets(0,0,0,45));
+		VBox.setMargin(check, new Insets(0,0,0,45));
 		
 		comboTxt1.getChildren().addAll(comboBoxtxt,kind);
-		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,40));
+		VBox.setMargin(comboBoxtxt, new Insets(0,0,0,40));
 		comboTxt1.setSpacing(10);
 		comboTxt2.getChildren().addAll(comboBoxtxt2,party);
-		comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,40));
+		VBox.setMargin(comboBoxtxt2, new Insets(0,0,0,40));
 		comboTxt2.setSpacing(10);
 
 		
@@ -304,20 +306,25 @@ public class View {
 		
 		txtAndCheck.getChildren().addAll(textFields,HcheckBox);
 		txtAndCheck.setSpacing(20);
-		txtAndCheck.setMargin(HcheckBox, new Insets(0,0,0,215));
+		VBox.setMargin(HcheckBox, new Insets(0,0,0,215));
 		
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
 				showAllCitizens, showAllParties, vote, showResults, exit, showView);
 
 		parametersBox.getChildren().addAll(comboAndTexts,txtAndCheck,addAndNext); // yakir
 		parametersBox.setSpacing(20);
-		parametersBox.setMargin(comboAndTexts, new Insets(50,50,50,90));
-		parametersBox.setMargin(addAndNext, new Insets(50,50,50,80));
+		VBox.setMargin(comboAndTexts, new Insets(50,50,50,90));
+		VBox.setMargin(addAndNext, new Insets(50,50,50,80));
 
 
 		
-		parametersPane.getChildren().addAll(parametersBox,barChart,output);
+		//parametersPane.getChildren().addAll(parametersBox,barChart,output);
+		Group root= new Group();
+		root.getChildren().addAll(parametersBox,barChart,output);
+		parametersPane.setContent(root);
 		parametersPane.setVisible(false);
+		parametersPane.styleProperty().set("-fx-background-color: #f3eace");	
+		
 		barChart.setLayoutY(550);
 		barChart.setLayoutX(0);
 
@@ -394,7 +401,7 @@ public class View {
 		txtFieldtxt.setText("Name");
 		txtFieldtxt2.setText("Date");
 		comboBoxtxt.setText("Party Faction");
-		txt2.setMargin(txtFieldtxt2, new Insets(0,0,0,45));
+		VBox.setMargin(txtFieldtxt2, new Insets(0,0,0,45));
 	}
 
 	public void addACandidate() {
@@ -421,8 +428,8 @@ public class View {
 		txtFieldtxt4.setText("Number of sick days");
 		comboBoxtxt.setText("Candidate Kind");
 		comboBoxtxt2.setText("Party");
-		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,25));
-		comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
+		VBox.setMargin(comboBoxtxt, new Insets(0,0,0,25));
+		VBox.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
 
 	}
 
@@ -470,7 +477,7 @@ public class View {
 		showResults.setDisable(true);
 		comboBoxtxt.setVisible(true);
 		comboBoxtxt.setText("Do You Want To Vote?");
-		comboTxt1.setMargin(comboBoxtxt, new Insets(0,0,0,5));
+		VBox.setMargin(comboBoxtxt, new Insets(0,0,0,5));
 	}
 
 	public void showResults(MainModel theModel) throws IDOutOfRange, ageOutOfRange {
