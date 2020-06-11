@@ -199,7 +199,7 @@ public class View {
 		output.setText("Label example");
 		output.setLayoutX(50);
 		output.setLayoutY(50);
-		output.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+		output.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 		output.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		output.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
 		output.setTextFill(Color.WHITE);
@@ -276,9 +276,6 @@ public class View {
 		txt3.setSpacing(10);
 		txt4.setSpacing(10);
 
-		barChart.setLayoutX(500);
-		barChart.setLayoutY(250);
-
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
 		HcheckBox.setSpacing(10);
 		VBox.setMargin(check, new Insets(0,0,0,45));
@@ -301,8 +298,9 @@ public class View {
 		addAndNext.setSpacing(100);
 		
 		
-		textFields.getChildren().addAll(txt1, txt2, txt3, txt4);
+		textFields.getChildren().addAll(txt1, txt2, txt3, txt4);		
 		textFields.setSpacing(20);
+		HBox.setMargin(txt1, new Insets(0,0 , 0, 90));
 		
 		txtAndCheck.getChildren().addAll(textFields,HcheckBox);
 		txtAndCheck.setSpacing(20);
@@ -318,15 +316,15 @@ public class View {
 
 
 		
-		//parametersPane.getChildren().addAll(parametersBox,barChart,output);
+
 		Group root= new Group();
 		root.getChildren().addAll(parametersBox,barChart,output);
 		parametersPane.setContent(root);
 		parametersPane.setVisible(false);
 		parametersPane.setStyle("-fx-background: #f3eace;-fx-border-color: #f3eace;");
 		
-		barChart.setLayoutY(550);
-		barChart.setLayoutX(0);
+		barChart.setLayoutY(470);
+		barChart.setLayoutX(100);
 
 		bp.setCenter(parametersPane);
 		bp.setLeft(leftMenu);
