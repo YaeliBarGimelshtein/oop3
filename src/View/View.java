@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -37,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class View {
@@ -328,7 +330,8 @@ public class View {
 
 		bp.styleProperty().set("-fx-background-color: #f3eace");	
 		
-		Scene scene = new Scene(bp, 1280, 960);
+		Rectangle2D screen = Screen.getPrimary().getBounds();
+		Scene scene = new Scene(bp, screen.getMaxX()-50, screen.getMaxY()-130);
 		
 		primaryStage.setScene(scene);
 		primaryStage.setFullScreen(false);
