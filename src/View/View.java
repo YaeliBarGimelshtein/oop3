@@ -323,7 +323,7 @@ public class View {
 		root.getChildren().addAll(parametersBox,barChart,output);
 		parametersPane.setContent(root);
 		parametersPane.setVisible(false);
-		parametersPane.styleProperty().set("-fx-background-color: #f3eace");	
+		parametersPane.setStyle("-fx-background: #f3eace;-fx-border-color: #f3eace;");
 		
 		barChart.setLayoutY(550);
 		barChart.setLayoutX(0);
