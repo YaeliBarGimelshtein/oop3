@@ -1,10 +1,7 @@
 package View;
 
 import java.util.Vector;
-
 import com.sun.javafx.charts.Legend;
-import com.sun.javafx.geom.Rectangle;
-
 import Model.IDOutOfRange;
 import Model.MainModel;
 import Model.ageOutOfRange;
@@ -34,7 +31,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -57,8 +53,6 @@ public class View {
 	private Button showResults;
 	private Button exit;
 	private Button add;
-	// for coding only!!
-	private Button showView;
 
 	private ComboBox<String> kind;
 	private ComboBox<String> party;
@@ -102,15 +96,6 @@ public class View {
 	private boolean voteIsDone;
 
 	public View(Stage primaryStage) {
-		// coding only!!
-		showView = new Button("Show View");
-		showView.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-		showView.setPrefSize(140, 30);
-		//showView.setStyle("-fx-border-color: #ac5454");
-		showView.setStyle("-fx-background-color: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
-		showView.setTextFill(Color.WHITE);
-		//showView.setBorder("-fx-border-color: #54ac96");
-		
 		// buttons:
 		addABallot = new Button("Add Ballot");
 		addABallot.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -307,7 +292,7 @@ public class View {
 		VBox.setMargin(HcheckBox, new Insets(0,0,0,215));
 		
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
-				showAllCitizens, showAllParties, vote, showResults, exit, showView);
+				showAllCitizens, showAllParties, vote, showResults, exit);
 
 		parametersBox.getChildren().addAll(comboAndTexts,txtAndCheck,addAndNext); // yakir
 		parametersBox.setSpacing(20);
@@ -699,7 +684,7 @@ public class View {
 				party.setVisible(true);
 				comboBoxtxt2.setVisible(true);
 				comboBoxtxt2.setText("Party");
-				comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
+				VBox.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
 				party.setValue("HaLikud");
 			} else {
 				party.setVisible(false);
@@ -839,31 +824,25 @@ public class View {
 		this.addACitizen.setDisable(true);
 		this.addAParty.setDisable(true);
 		this.addACandidate.setDisable(true);
-		resultsString=model.showResultsUpdate();
+		resultsString = model.showResultsUpdate();
 		model.setNumberOfVotersPerParty();
 		model.setInfoForView(results);
 		barChart.getData().add(results);
 		barChart.setStyle("-fx-text-fill: #54ac96");
-		for(Node n:barChart.lookupAll(".default-color0.chart-bar")) {
-            n.setStyle("-fx-bar-fill: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
-        }
-		for(Node m : barChart.getChildrenUnmodifiable()){
-			   if(m instanceof Legend){
-			      for(Legend.LegendItem legendItem : ((Legend)m).getItems()){
-			        legendItem.getSymbol().setStyle("-fx-background-color: #54ac96;");
-			      }
-			   }
+		for (Node n : barChart.lookupAll(".default-color0.chart-bar")) {
+			n.setStyle("-fx-bar-fill: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		}
+		for (Node m : barChart.getChildrenUnmodifiable()) {
+			if (m instanceof Legend) {
+				for (Legend.LegendItem legendItem : ((Legend) m).getItems()) {
+					legendItem.getSymbol().setStyle("-fx-background-color: #54ac96;");
+				}
 			}
-
+		}
 	}
 
 	public boolean getVotingIsDone() {
 		return voteIsDone;
-	}
-
-	public void addEventToShowView(EventHandler<ActionEvent> showViewPressed) {
-		showView.setOnAction(showViewPressed);
-
 	}
 
 	public XYChart.Series getXYChart() {
@@ -875,7 +854,6 @@ public class View {
 		msg.setHeaderText("The ID you typed is invalid");
 		msg.setContentText("ID Out Of Range Massage");
 		msg.show();
-	
 	}
 
 	public void ageOutOfRangeMassage() {
@@ -883,7 +861,5 @@ public class View {
 		msg.setHeaderText("The age you typed is invalid");
 		msg.setContentText("Age out of range");
 		msg.show();
-		
 	}
-
 }

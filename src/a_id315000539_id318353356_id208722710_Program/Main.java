@@ -1,6 +1,5 @@
 package a_id315000539_id318353356_id208722710_Program;
 
-
 import Controller.Controller;
 import Model.MainModel;
 import View.View;
