@@ -232,8 +232,10 @@ public class ElectionRound implements Menuable {
 	}
 
 	public <T extends Citizen> boolean setBallotAndASingleCitizen(T temp) throws ageOutOfRange {
-		matchBallotAndCitizen(temp);
-		return true;
+		if(temp.getAge()>17) {
+			matchBallotAndCitizen(temp);
+		}
+		return false;
 	}
 
 	private boolean matchBallotAndCitizen(Citizen citizen) throws ageOutOfRange {
@@ -579,26 +581,26 @@ public class ElectionRound implements Menuable {
 		StringBuffer str = new StringBuffer(
 				this.toString() + " is over. The number of voters is " + calculateActualVoters() + " out of "
 						+ this.numberOfvoters + " Potential voters.\n The voting percent of the election round: "
-						+ calculateTotalVotingPercent() + "\n\n");
+						+ calculateTotalVotingPercent() + "%\n");
 
 		for (int i = 0; i < citizenBallot.size(); i++) {
-			str.append(citizenBallot.get(i).showResults()+ "\n\n");
+			str.append(citizenBallot.get(i).showResults()+ "\n");
 		}
 		for (int i = 0; i < sickCitizenBallot.size(); i++) {
-			str.append(sickCitizenBallot.get(i).showResults()+ "\n\n");
+			str.append(sickCitizenBallot.get(i).showResults()+ "\n");
 		}
 		for (int i = 0; i < soldierBallot.size(); i++) {
-			str.append(soldierBallot.get(i).showResults()+ "\n\n");
+			str.append(soldierBallot.get(i).showResults()+ "\n");
 
 		}
 		for (int i = 0; i < sickSoldierBallot.size(); i++) {
-			str.append(sickSoldierBallot.get(i).showResults()+ "\n\n");
+			str.append(sickSoldierBallot.get(i).showResults()+ "\n");
 		}
 		for (int i = 0; i < candidateBallot.size(); i++) {
-			str.append(candidateBallot.get(i).showResults()+ "\n\n");
+			str.append(candidateBallot.get(i).showResults()+ "\n");
 		}
 		for (int i = 0; i < sickCandidateBallot.size(); i++) {
-			str.append(sickCandidateBallot.get(i).showResults()+ "\n\n");
+			str.append(sickCandidateBallot.get(i).showResults()+ "\n");
 		}
 		return str.toString();
 	}
