@@ -161,14 +161,6 @@ public class Controller {
 			}
 		};
 		view.addEventToExit(exitPressed);
-
-		EventHandler<ActionEvent> showViewPressed = new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				view.showView();
-			}
-		};
-		view.addEventToShowView(showViewPressed);
 		
 		
 		ChangeListener<String> comboBoxPressed = new ChangeListener<String>() {

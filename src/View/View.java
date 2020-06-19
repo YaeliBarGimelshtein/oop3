@@ -1,10 +1,7 @@
 package View;
 
 import java.util.Vector;
-
 import com.sun.javafx.charts.Legend;
-import com.sun.javafx.geom.Rectangle;
-
 import Model.IDOutOfRange;
 import Model.MainModel;
 import Model.ageOutOfRange;
@@ -34,7 +31,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -57,8 +53,6 @@ public class View {
 	private Button showResults;
 	private Button exit;
 	private Button add;
-	// for coding only!!
-	private Button showView;
 
 	private ComboBox<String> kind;
 	private ComboBox<String> party;
@@ -102,15 +96,6 @@ public class View {
 	private boolean voteIsDone;
 
 	public View(Stage primaryStage) {
-		// coding only!!
-		showView = new Button("Show View");
-		showView.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-		showView.setPrefSize(140, 30);
-		//showView.setStyle("-fx-border-color: #ac5454");
-		showView.setStyle("-fx-background-color: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
-		showView.setTextFill(Color.WHITE);
-		//showView.setBorder("-fx-border-color: #54ac96");
-		
 		// buttons:
 		addABallot = new Button("Add Ballot");
 		addABallot.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -199,7 +184,7 @@ public class View {
 		output.setText("Label example");
 		output.setLayoutX(50);
 		output.setLayoutY(50);
-		output.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+		output.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 		output.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		output.setStyle("-fx-background-color: #50a08d;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
 		output.setTextFill(Color.WHITE);
@@ -276,9 +261,6 @@ public class View {
 		txt3.setSpacing(10);
 		txt4.setSpacing(10);
 
-		barChart.setLayoutX(500);
-		barChart.setLayoutY(250);
-
 		HcheckBox.getChildren().addAll(txtCheckBox, check);
 		HcheckBox.setSpacing(10);
 		VBox.setMargin(check, new Insets(0,0,0,45));
@@ -301,15 +283,16 @@ public class View {
 		addAndNext.setSpacing(100);
 		
 		
-		textFields.getChildren().addAll(txt1, txt2, txt3, txt4);
+		textFields.getChildren().addAll(txt1, txt2, txt3, txt4);		
 		textFields.setSpacing(20);
+		HBox.setMargin(txt1, new Insets(0,0 , 0, 90));
 		
 		txtAndCheck.getChildren().addAll(textFields,HcheckBox);
 		txtAndCheck.setSpacing(20);
 		VBox.setMargin(HcheckBox, new Insets(0,0,0,215));
 		
 		leftMenu.getChildren().addAll(addABallot, addACitizen, addAParty, addACandidate, showAllBallots,
-				showAllCitizens, showAllParties, vote, showResults, exit, showView);
+				showAllCitizens, showAllParties, vote, showResults, exit);
 
 		parametersBox.getChildren().addAll(comboAndTexts,txtAndCheck,addAndNext); // yakir
 		parametersBox.setSpacing(20);
@@ -318,15 +301,15 @@ public class View {
 
 
 		
-		//parametersPane.getChildren().addAll(parametersBox,barChart,output);
+
 		Group root= new Group();
 		root.getChildren().addAll(parametersBox,barChart,output);
 		parametersPane.setContent(root);
 		parametersPane.setVisible(false);
 		parametersPane.setStyle("-fx-background: #f3eace;-fx-border-color: #f3eace;");
 		
-		barChart.setLayoutY(550);
-		barChart.setLayoutX(0);
+		barChart.setLayoutY(470);
+		barChart.setLayoutX(100);
 
 		bp.setCenter(parametersPane);
 		bp.setLeft(leftMenu);
@@ -701,7 +684,7 @@ public class View {
 				party.setVisible(true);
 				comboBoxtxt2.setVisible(true);
 				comboBoxtxt2.setText("Party");
-				comboTxt2.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
+				VBox.setMargin(comboBoxtxt2, new Insets(0,0,0,65));
 				party.setValue("HaLikud");
 			} else {
 				party.setVisible(false);
@@ -841,31 +824,25 @@ public class View {
 		this.addACitizen.setDisable(true);
 		this.addAParty.setDisable(true);
 		this.addACandidate.setDisable(true);
-		resultsString=model.showResultsUpdate();
+		resultsString = model.showResultsUpdate();
 		model.setNumberOfVotersPerParty();
 		model.setInfoForView(results);
 		barChart.getData().add(results);
 		barChart.setStyle("-fx-text-fill: #54ac96");
-		for(Node n:barChart.lookupAll(".default-color0.chart-bar")) {
-            n.setStyle("-fx-bar-fill: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
-        }
-		for(Node m : barChart.getChildrenUnmodifiable()){
-			   if(m instanceof Legend){
-			      for(Legend.LegendItem legendItem : ((Legend)m).getItems()){
-			        legendItem.getSymbol().setStyle("-fx-background-color: #54ac96;");
-			      }
-			   }
+		for (Node n : barChart.lookupAll(".default-color0.chart-bar")) {
+			n.setStyle("-fx-bar-fill: #54ac96;-fx-border-color: #a0a0a0;-fx-border-width: 3 3 3 3");
+		}
+		for (Node m : barChart.getChildrenUnmodifiable()) {
+			if (m instanceof Legend) {
+				for (Legend.LegendItem legendItem : ((Legend) m).getItems()) {
+					legendItem.getSymbol().setStyle("-fx-background-color: #54ac96;");
+				}
 			}
-
+		}
 	}
 
 	public boolean getVotingIsDone() {
 		return voteIsDone;
-	}
-
-	public void addEventToShowView(EventHandler<ActionEvent> showViewPressed) {
-		showView.setOnAction(showViewPressed);
-
 	}
 
 	public XYChart.Series getXYChart() {
@@ -877,7 +854,6 @@ public class View {
 		msg.setHeaderText("The ID you typed is invalid");
 		msg.setContentText("ID Out Of Range Massage");
 		msg.show();
-	
 	}
 
 	public void ageOutOfRangeMassage() {
@@ -885,7 +861,5 @@ public class View {
 		msg.setHeaderText("The age you typed is invalid");
 		msg.setContentText("Age out of range");
 		msg.show();
-		
 	}
-
 }
